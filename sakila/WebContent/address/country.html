@@ -79,24 +79,24 @@ body {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 	//add 버튼 클릭시
-	$(addCountry).click(
-		function{
+	$("#addCountry").click(
+		function(){
 			//입력 확인
 			console.log("click");
 			//입력값 확인
-			console.log("Country :>>"+$("#country").value());
+			console.log("Country :>>"+$("#country").val());
 			$.ajax(
 					{//객체 
 				url:"/sakila/address/InsertCountry",
 				method:"post",
-				data:$("#country").value,
+				data:{country : $("#country").val()},
 				success:function(){
-					console.log("입력 Success");
-				}
-				}
-			)
-		}
-	)
+							console.log("입력 Success");
+						}
+					}
+				)
+			}	
+		)
 	
 </script>
 </html>

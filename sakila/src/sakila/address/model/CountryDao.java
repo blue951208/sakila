@@ -13,7 +13,7 @@ public class CountryDao {
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
-				stmt.setString(1,country.getCountry());
+				stmt.setString(1, country.getCountry());
 			stmt.executeUpdate();	
 		}catch(Exception e) {
 			e.printStackTrace();
