@@ -33,11 +33,12 @@ public class Address {
 	public void setDistirct(String distirct) {
 		this.distirct = distirct;
 	}
-	public int getCityId() {
-		return cityId;
+	
+	public City getCity() {
+		return city;
 	}
-	public void setCityId(int cityId) {
-		this.cityId = cityId;
+	public void setCity(City city) {
+		this.city = city;
 	}
 	public String getPostalCode() {
 		return postalCode;
@@ -60,8 +61,9 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", address=" + address + ", address2=" + address2 + ", distirct="
-				+ distirct + ", cityId=" + cityId + ", postalCode=" + postalCode + ", phone=" + phone + ", lastUpdate="
+				+ distirct + ", city=" + city + ", postalCode=" + postalCode + ", phone=" + phone + ", lastUpdate="
 				+ lastUpdate + "]";
 	}
+	
 	
 }

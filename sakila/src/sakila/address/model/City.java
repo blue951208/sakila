@@ -17,11 +17,12 @@ public class City {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public int getCountryId() {
-		return countryId;
+	
+	public Country getCountry() {
+		return country;
 	}
-	public void setCountryId(int countryId) {
-		this.countryId = countryId;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	public String getLastUpdate() {
 		return lastUpdate;
@@ -31,8 +32,9 @@ public class City {
 	}
 	@Override
 	public String toString() {
-		return "City [cityId=" + cityId + ", city=" + city + ", countryId=" + countryId + ", lastUpdate=" + lastUpdate
+		return "City [cityId=" + cityId + ", city=" + city + ", country=" + country + ", lastUpdate=" + lastUpdate
 				+ "]";
 	}
+	
 	
 }
