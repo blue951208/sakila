@@ -92,9 +92,37 @@ body {
 				data:{country : $("#country").val()},
 				success:function(){
 							console.log("입력 Success");
-						}
-					}
-				)
+							//입력 성공 시 list 보여주기, list태그 값Servlet으로
+							$.ajax(
+									{
+										url:"",
+										method:"post",
+										data:{list:$("#list")},
+										success:function(){
+											console.log("list출력 update 완료");
+											$("#list").empty();
+											$.ajax(
+												{//요청
+												url:"/sakila/address/selectCountryList",
+												method:"post",
+												success:function(){//배열 생성
+													for(let i;i<json.length;i++){
+														let html =  "<tr>"+
+																	"<td>"+json[i].country_id+"</td>"+
+																	"<td>"+json[i].country+"</td>"+
+																	"<td>"+json[i].last_update+"</td>"+
+																	"</tr>";
+																$("#list").append(html);	
+														}//for
+													}//success
+												}//ajax 객체 {}
+											)//ajax()
+										}//success{}
+									}//ajax{}
+							)//ajax()
+						}//function{}
+					}//ajax객체
+				)//ajax()
 			}	
 		)
 	
