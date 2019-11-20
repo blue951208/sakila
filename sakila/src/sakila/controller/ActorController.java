@@ -17,11 +17,11 @@ public class ActorController extends HttpServlet {
 		//데이터 타입 지정
 		response.setContentType("application/json;charset=utf=8");
 		//list 생성
-		
+		List<Actor> list = new ArrayList();
 		//service 호출,list 에 값 복사
 		
 		//gson 객체 생성
-		
+		Gson gson = new Gson();
 		//view 로 list를 gson 타입으로 전송
 	}
 }
