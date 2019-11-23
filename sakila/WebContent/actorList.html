@@ -23,12 +23,15 @@
 <script>
 	 $.ajax({
 		url:"/sakila/getActorList",
-		method:"get",
+		method:"post",
 		success:function(json){
 			console.log("리스트 체크"+json);
 			$("#actorList").empty();
 			$(json).each(function(index,item){
-				
+				$("#actorList").append(
+						"<tr><td>"+item.actorId+"</td>"
+						+"<td>"+item.name+"</td>"
+						+"</tr>");
 			})
 		}
 	 })
