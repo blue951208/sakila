@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sakila.dao.ActorDao;
+import sakila.actor.dao.ActorDao;
 import sakila.vo.Actor;
 
 /**

@@ -1,4 +1,4 @@
-package sakila.dao;
+package sakila.actor.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +10,11 @@ import sakila.db.DBHelper;
 import sakila.vo.Actor;
 
 public class ActorDao {
+	public Actor selectActorOne() {
+		Actor actor = new Actor(); 
+		return actor;
+	}
+	
 	public List<Actor> selectActorList(){
 		System.out.println("actor dao select List");
 		List<Actor> list = new ArrayList();
