@@ -2,7 +2,9 @@ package sakila.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +30,26 @@ public class ActorController extends HttpServlet {
 		List<Actor> list = new ArrayList();
 		//dao 호출,list 에 값 복사
 		ActorDao actorDao = new ActorDao();
-		list = actorDao.selectActorList();
+	
+		//paging-- lastPage,currentPage,rowPerPage 설정
+		int count = actorDao.selectCount();
+		int rowPerPage = 10;
+		int lastPage = count/rowPerPage;
+		if(count%rowPerPage!=0) {
+			lastPage += 1;
+		}
+		int currentPage =1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage")); 
+			System.out.println("page>"+currentPage);
+		}
+		int beginRow = (currentPage-1)*rowPerPage;
+		list = actorDao.selectActorList(beginRow,rowPerPage);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", list);
+		map.put("currentPage", currentPage);
+		map.put("lastPage", lastPage);
 		System.out.println("actor List >>"+list);
 		//gson 객체 생성
 		Gson gson = new Gson();
