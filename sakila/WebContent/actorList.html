@@ -3,12 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>출현한 배우 리스트</title>
+<script src="/jquery-ex/scripts/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <h1>배우들....</h1>
 	
-		ID:<input type="text" name="actorId">
-			<button id="actor">검색</button>
+		Actor:<input type="text" id="actorName">
+			<button id="actorFilm">검색</button>
+			<table>
+					<thead>
+						<tr>
+							<td>제목</td>
+							<td>설명</td>
+							<td>개봉 년도</td>
+						</tr>	
+					</thead>
+					<tbody id="filmList">
+					</tbody>
+			</table>
 	<table border="1">
 		<thead>
 			<tr>
@@ -27,6 +39,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
+
 	 $.ajax({
 		url:"/sakila/getActorList",
 		method:"get",
@@ -40,29 +53,36 @@
 						+"</tr>"
 						);
 			})
+			
+			
 		}
 	 })
-	 
-		$.ajax({
-		url:"/sakila/SelectActorOne",
-		method:"post",
-		data:{
-			actorId:$(".id").val()
-			},
-		success:function(json){
-			console.log(json);
-			$(json).each(function(index,item){
-				$("#filmList").append(
-						"<tr>"
-						+"<td>"+item.title+"</td>"
-						+"<td>"+item.description+"</td>"
-						+"<td>"+item.releaseYear+"</td>"
-						+"</tr>"
-					)
-				})
-			}
-		})
-	 
+
+	 	 
+		$("#actorFilm").click(function(){
+			let actorName=$("#actorName").val();
+		console.log("name:"+actorName);
+				$.ajax({
+					url:"/sakila/SelectActorOne",
+					method:"post",
+					data:{
+						"name":actorName
+						},
+					success:function(json){
+						console.log(json);
+						$(json).each(function(index,item){
+							$("#filmList").append(
+									"<tr>"
+									+"<td>"+item.title+"</td>"
+									+"<td>"+item.description+"</td>"
+									+"<td>"+item.releaseYear+"</td>"
+									+"</tr>"
+								)
+							})
+						}
+					})
+		})	
+		 
 	/* $("#prev").click(function(){
 		 let currentPage = ${"currentPage"} 
 			 currentPage+ 1;

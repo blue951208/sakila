@@ -20,13 +20,13 @@ import sakila.vo.Film;
  */
 @WebServlet("/SelectActorOne")
 public class SelectActorOne extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int actorId= Integer.parseInt(request.getParameter("actorId"));
-		System.out.println("id:"+actorId);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		System.out.println("Name:"+name);
 		List<Film> list = new ArrayList<Film>();
 		
 		FilmDao filmDao = new FilmDao();
-		list = filmDao.selectFilmbyActor(actorId);
+		list = filmDao.selectFilmbyActor(name);
 		
 		System.out.println("film by Actor List >>"+list);
 		//gson 객체 생성
