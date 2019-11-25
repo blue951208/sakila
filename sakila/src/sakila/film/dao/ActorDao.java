@@ -1,4 +1,4 @@
-package sakila.actor.dao;
+package sakila.film.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,8 +46,8 @@ public class ActorDao {
 		return count;
 	}
 	//actor 리스트 출력
-	public List<Actor> selectActorList(int beginRow, int rowPerPage){
-		System.out.println("actor dao select List,page>"+ beginRow);
+	public List<Actor> selectActorList(){//int beginRow, int rowPerPage){
+		System.out.println("actor dao select List,page>");//+ beginRow);
 		List<Actor> list = new ArrayList();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -58,8 +58,8 @@ public class ActorDao {
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
+	/*		stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);*/
 			rs = stmt.executeQuery();
 				while(rs.next()) {
 					Actor actor = new Actor();

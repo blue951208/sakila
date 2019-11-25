@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>배우가 찍은 영화</h1>
+	<table>
+		<thead>
+			<tr>
+				<td>제목</td>
+				<td>설명</td>
+				<td>개봉 년도</td>
+			</tr>
+		</thead>
+		<tbody id="filmList">
+		
+		</tbody>
+	</table>
+</body>
+<script>
+	$.ajax({
+		url:"/sakila/SelectActorOne",
+		method:"post",
+		success:function(json){
+			console.log(json);
+			$(json).each(function(index,item){
+				$("#filmList").append(
+						"<tr>"
+						+"<td>"+item.title+"</td>"
+						+"<td>"+item.description+"</td>"
+						+"<td>"+item.releaseYear+"</td>"
+						+"</tr>"
+				)
+				
+			})
+		}
+	})
+</script>
+</html>
