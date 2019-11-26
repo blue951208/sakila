@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/jquery-ex/scripts/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<h1>Inventory</h1>
+	<select id="storeId">
+		<option value="0">All</option>
+		<option value="1">First Store</option>
+		<option value="2">Second Store</option>
+	</select>
+	<button id="store">확인</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	
+	$("#store").click(function(){
+		console.log($("#storeId").val());
+	//store 값을 받아서 storeid에 맞는 영화 목록 출력
+			$.ajax({
+				url:"/sakila/getFilmbyStore", 
+				method:"post",
+				data:{"storeId":$("#storeId").val()},
+				success:function(json){
+					console.log(json);
+				}
+			})
+	});
+</script>
+</html>
