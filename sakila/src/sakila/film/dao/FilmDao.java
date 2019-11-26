@@ -29,7 +29,7 @@ public class FilmDao {
 			stmt.setString(1,name);
 			System.out.println("sql:>"+sql);
 			rs = stmt.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				Film film = new Film();
 				film.setDescription(rs.getString("f.description"));
 				film.setTitle(rs.getString("f.title"));

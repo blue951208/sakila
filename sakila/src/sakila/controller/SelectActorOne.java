@@ -21,6 +21,7 @@ import sakila.vo.Film;
 @WebServlet("/SelectActorOne")
 public class SelectActorOne extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("Application/json");
 		String name = request.getParameter("name");
 		System.out.println("Name:"+name);
 		List<Film> list = new ArrayList<Film>();
@@ -36,9 +37,5 @@ public class SelectActorOne extends HttpServlet {
 		
 		response.getWriter().write(json);
 	}
-/*	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}*/
 
 }

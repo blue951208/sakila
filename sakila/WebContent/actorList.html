@@ -21,7 +21,8 @@
 					<tbody id="filmList">
 					</tbody>
 			</table>
-	<table border="1" id="actor">
+			<div id="actor">
+	<table border="1">
 		<thead>
 			<tr>
 				<td>번호</td>
@@ -35,6 +36,7 @@
  	<button id="prev">이전</button>
  	
  	<button id="next">다음</button>
+ 	</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
@@ -57,9 +59,10 @@
 		}
 	 })
 
-	 	 
-		$("#actorFilm").click(function(){
-			let actorName=$("#actorName").val();
+		
+	 $("#actorFilm").click(function(){
+		 $("#filmList").empty();
+		let actorName=$("#actorName").val();
 		console.log("name:"+actorName);
 				$.ajax({
 					url:"/sakila/SelectActorOne",
@@ -71,16 +74,16 @@
 						console.log(json);
 						$("#actor").empty();
 						$(json).each(function(index,item){
-							$("#filmList").append( 
+							$("#filmList").append(
 									"<tr>"
 									+"<td>"+item.title+"</td>"
 									+"<td>"+item.description+"</td>"
 									+"<td>"+item.releaseYear+"</td>"
 									+"</tr>"
-									);
-						})
-						}
-					})
+							)
+						});
+					}
+				})
 		})	
 		 
 	/* $("#prev").click(function(){
