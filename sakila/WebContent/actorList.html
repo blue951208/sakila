@@ -15,13 +15,13 @@
 						<tr>
 							<td>제목</td>
 							<td>설명</td>
-							<td>개봉 년도</td>
+							<td>개봉년도</td>
 						</tr>	
 					</thead>
 					<tbody id="filmList">
 					</tbody>
 			</table>
-	<table border="1">
+	<table border="1" id="actor">
 		<thead>
 			<tr>
 				<td>번호</td>
@@ -45,7 +45,6 @@
 		method:"get",
 		success:function(json){
 			console.log("리스트 체크"+json);
-			$("#actorList").empty();
 			$(json).each(function(index,item){
 				$("#actorList").append(
 						"<tr><td class='id'>"+item.actorId+"</td>"
@@ -70,15 +69,16 @@
 						},
 					success:function(json){
 						console.log(json);
+						$("#actor").empty();
 						$(json).each(function(index,item){
-							$("#filmList").append(
+							$("#filmList").append( 
 									"<tr>"
 									+"<td>"+item.title+"</td>"
 									+"<td>"+item.description+"</td>"
 									+"<td>"+item.releaseYear+"</td>"
 									+"</tr>"
-								)
-							})
+									);
+						})
 						}
 					})
 		})	
