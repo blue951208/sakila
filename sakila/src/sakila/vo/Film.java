@@ -6,6 +6,13 @@ public class Film {
 	private String description;
 	private String releaseYear;
 	private Language language;
+	private int rentalDuration;
+	private double rentalRate;
+	private int length;
+	private double replacementCost;
+	private String rating;
+	private String specialFeatures;
+	private String lastUpdate;
 	public int getFilmId() {
 		return filmId;
 	}
@@ -36,10 +43,55 @@ public class Film {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
+	public int getRentalDuration() {
+		return rentalDuration;
+	}
+	public void setRentalDuration(int rentalDuration) {
+		this.rentalDuration = rentalDuration;
+	}
+	public double getRentalRate() {
+		return rentalRate;
+	}
+	public void setRentalRate(double rentalRate) {
+		this.rentalRate = rentalRate;
+	}
+	public int getLength() {
+		return length;
+	}
+	public void setLength(int length) {
+		this.length = length;
+	}
+	public double getReplacementCost() {
+		return replacementCost;
+	}
+	public void setReplacementCost(double replacementCost) {
+		this.replacementCost = replacementCost;
+	}
+	public String getRating() {
+		return rating;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+	public String getSpecialFeatures() {
+		return specialFeatures;
+	}
+	public void setSpecialFeatures(String specialFeatures) {
+		this.specialFeatures = specialFeatures;
+	}
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 	@Override
 	public String toString() {
 		return "Film [filmId=" + filmId + ", title=" + title + ", description=" + description + ", releaseYear="
-				+ releaseYear + ", language=" + language + "]";
+				+ releaseYear + ", language=" + language + ", rentalDuration=" + rentalDuration + ", rentalRate="
+				+ rentalRate + ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
+				+ ", specialFeatures=" + specialFeatures + ", lastUpdate=" + lastUpdate + "]";
 	}
+	
 	
 }
