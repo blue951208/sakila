@@ -13,34 +13,43 @@ import sakila.vo.Store;
 
 public class FilmDao {
 	//선택한 가게에따라 존재하는 영화 리스트 출력
-	public Map<String,Object> selectFilmByStore(int storeId){
-		Map<String,Object> map = new HashMap<String,Object>();
+	public List<Map<String,Object>> selectFilmByStore(int storeId){
+		List<Map<String, Object>> list = new ArrayList();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select s.store,f.title,f.description,f.release_year,f.rental_rate"
-					+"from store s inner join inventory i inner join film f"
-					+"on s.store_id=i.store_id and i.film_id=f.film_id"
-					+"where s.store_id=?";
+		String sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate"
+				+" from store s inner join inventory i inner join film f"
+				+" on s.store_id=i.store_id and i.film_id=f.film_id"
+				+" group by f.title";
+	if(storeId!=0) {
+		 sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate"
+				+" from store s inner join inventory i inner join film f"
+				+" on s.store_id=i.store_id and i.film_id=f.film_id"
+				+" where s.store_id=?"
+				+" group by f.title";
+	}
 			try {
 				conn = DBHelper.getConnection();
 				stmt = conn.prepareStatement(sql);
+			  if(storeId!=0) {
+				  stmt.setInt(1, storeId); 
+			  }
 				rs = stmt.executeQuery();
+				System.out.println(">"+rs);
 				while(rs.next()) {
-					Store store = new Store();
-					store.setStoreId(rs.getInt("s.store_id"));
-					Film film = new Film();
-					film.setTitle(rs.getString("f.title"));
-					film.setDescription(rs.getString("f.description"));
-					film.setReleaseYear(rs.getString("f.release_year"));
-					film.setRentalRate(rs.getDouble("f.rental_rate"));
-					map.put("film",film);
-					map.put("store",store);
-					System.out.println("map>>"+map);
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.put("storeId",rs.getInt("s.store_id"));
+					map.put("title",rs.getString("f.title"));
+					map.put("description", rs.getString("f.description"));
+					map.put("releaseYear", rs.getString("f.release_year"));
+					map.put("rentalRate", rs.getDouble("f.rental_rate"));
+					list.add(map);
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
 			}finally {
+			
 				try {
 					rs.close();
 					stmt.close();
@@ -49,7 +58,8 @@ public class FilmDao {
 					e.printStackTrace();
 				}
 			}
-			return map;
+			System.out.println("map>>"+list);
+			return list;
 	}
 	
 	//선택한 배우번호에 따른 영화리스트 출력

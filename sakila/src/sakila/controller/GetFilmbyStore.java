@@ -1,6 +1,7 @@
 package sakila.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import sakila.film.dao.FilmDao;
 
@@ -23,8 +26,13 @@ public class GetFilmbyStore extends HttpServlet {
 		System.out.println("controlller store film:"+storeId);
 		
 		FilmDao filmDao = new FilmDao();
-		Map<String,Object> map = filmDao.selectFilmByStore(storeId);
+		List<Map<String, Object>> list = filmDao.selectFilmByStore(storeId);
 		
+		Gson gson = new Gson();
+		//view 로 list를 gson 타입으로 전송
+		String json = gson.toJson(list);
+		
+		response.getWriter().write(json);
 	}
 
 }

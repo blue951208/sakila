@@ -13,11 +13,26 @@
 		<option value="2">Second Store</option>
 	</select>
 	<button id="store">확인</button>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>가게번호</th>
+				<th>제목</th>
+				<th>줄거리</th>
+				<th>개봉년도</th>
+				<th>대여비용</th>
+			</tr>
+		</thead>
+		<tbody id="film">
+			
+		</tbody>
+	</table>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 	
 	$("#store").click(function(){
+		$("#film").empty();
 		console.log($("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
 			$.ajax({
@@ -26,6 +41,15 @@
 				data:{"storeId":$("#storeId").val()},
 				success:function(json){
 					console.log(json);
+					$(json).each(function(index,item){
+						$("#film").append("<tr>"
+								+"<td>"+item.storeId+"</td>"
+								+"<td>"+item.title+"</td>"
+								+"<td>"+item.description+"</td>"
+								+"<td>"+item.releaseYear+"</td>"
+								+"<td>"+item.rentalRate+"</td>"
+								+"</tr>");
+					})
 				}
 			})
 	});
