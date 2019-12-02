@@ -13,7 +13,7 @@ import sakila.vo.Store;
 
 public class FilmDao {
 	//선택한 가게에따라 존재하는 영화 리스트 출력
-	public List<Map<String,Object>> selectFilmByStore(int storeId){
+	public List<Map<String,Object>> selectFilmByStore(int storeId,String rating){
 		List<Map<String, Object>> list = new ArrayList();
 		Connection conn = null;
 		PreparedStatement stmt = null;

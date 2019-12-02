@@ -24,9 +24,11 @@ public class GetFilmbyStore extends HttpServlet {
 		
 		int storeId = Integer.parseInt(request.getParameter("storeId"));
 		System.out.println("controlller store film:"+storeId);
+		String rating = request.getParameter("rating");
+		System.out.println("rating:"+rating);
 		
 		FilmDao filmDao = new FilmDao();
-		List<Map<String, Object>> list = filmDao.selectFilmByStore(storeId);
+		List<Map<String, Object>> list = filmDao.selectFilmByStore(storeId, rating);
 		
 		Gson gson = new Gson();
 		//view 로 list를 gson 타입으로 전송
