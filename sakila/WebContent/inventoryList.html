@@ -13,11 +13,12 @@
 		<option value="2">Second Store</option>
 	</select>
 	<select id=rating>
+		<option value="All">All</option>
 		<option value="G">G</option>
-		<optino value="PG">PG</optino>
-		<optino value="PG-13">PG-13</optino>
-		<optino value="R">R</optino>
-		<optino value="NC-17">NC-17</optino>
+		<option value="PG">PG</option>
+		<option value="PG-13">PG-13</option>
+		<option value="R">R</option>
+		<option value="NC-17">NC-17</option>
 	</select>
 	<button id="store">확인</button>
 	<table border="1">
@@ -28,6 +29,7 @@
 				<th>줄거리</th>
 				<th>개봉년도</th>
 				<th>대여비용</th>
+				<th>등급</th>
 			</tr>
 		</thead>
 		<tbody id="film">
@@ -45,7 +47,10 @@
 			$.ajax({
 				url:"/sakila/getFilmbyStore", 
 				method:"post",
-				data:{"storeId":$("#storeId").val()},
+				data:{
+					"storeId":$("#storeId").val(),
+					"rating":$("#rating").val()
+					},
 				success:function(json){
 					console.log(json);
 					$(json).each(function(index,item){
@@ -55,6 +60,7 @@
 								+"<td>"+item.description+"</td>"
 								+"<td>"+item.releaseYear+"</td>"
 								+"<td>"+item.rentalRate+"</td>"
+								+"<td>"+item.rating+"</td>"
 								+"</tr>");
 					})
 				}

@@ -18,22 +18,46 @@ public class FilmDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate"
-				+" from store s inner join inventory i inner join film f"
-				+" on s.store_id=i.store_id and i.film_id=f.film_id"
-				+" group by f.title";
+		
+		String sql;
+		
+		if(rating.contentEquals("All")) {
+			System.out.println("all & allstore");
+			sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+					+" from store s inner join inventory i inner join film f"
+					+" on s.store_id=i.store_id and i.film_id=f.film_id"
+					+" group by f.title";
+		}else {
+			System.out.println("rating & allstore");
+			sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+					+" from store s inner join inventory i inner join film f"
+					+" on s.store_id=i.store_id and i.film_id=f.film_id"
+					+" where f.rating=?"
+					+" group by f.title";
+		}
 	if(storeId!=0) {
-		 sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate"
+		if(rating.contentEquals("All")) {
+		 sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
 				+" from store s inner join inventory i inner join film f"
 				+" on s.store_id=i.store_id and i.film_id=f.film_id"
 				+" where s.store_id=?"
 				+" group by f.title";
+		}else {
+			sql="select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
+					+" from store s inner join inventory i inner join film f"
+					+" on s.store_id=i.store_id and i.film_id=f.film_id"
+					+" where s.store_id=? and f.rating=?"
+					+" group by f.title";
+		}
 	}
 			try {
 				conn = DBHelper.getConnection();
 				stmt = conn.prepareStatement(sql);
 			  if(storeId!=0) {
 				  stmt.setInt(1, storeId); 
+				  if(rating!="All") {
+					  stmt.setString(2, rating);
+				  }
 			  }
 				rs = stmt.executeQuery();
 				System.out.println(">"+rs);
@@ -44,6 +68,7 @@ public class FilmDao {
 					map.put("description", rs.getString("f.description"));
 					map.put("releaseYear", rs.getString("f.release_year"));
 					map.put("rentalRate", rs.getDouble("f.rental_rate"));
+					map.put("rating", rs.getString("f.rating"));
 					list.add(map);
 				}
 			}catch(Exception e) {
