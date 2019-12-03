@@ -22,7 +22,7 @@ import sakila.vo.Actor;
  */
 @WebServlet("/getActorList")
 public class SelectActorList extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("actor Controller 확인");
 		//데이터 타입 지정
 		response.setContentType("Application/json");//charset=utf=8");
@@ -30,7 +30,7 @@ public class SelectActorList extends HttpServlet {
 		List<Actor> list = new ArrayList();
 		//dao 호출,list 에 값 복사
 		ActorDao actorDao = new ActorDao();
-	/*
+	
 		//paging-- lastPage,currentPage,rowPerPage 설정
 		int count = actorDao.selectCount();
 		int rowPerPage = 10;
@@ -49,8 +49,8 @@ public class SelectActorList extends HttpServlet {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("list", list);
 		map.put("currentPage", currentPage);
-		map.put("lastPage", lastPage);	*/
-		list = actorDao.selectActorList();//beginRow,rowPerPage);
+		map.put("lastPage", lastPage);	
+		list = actorDao.selectActorList(beginRow,rowPerPage);
 		System.out.println("actor List >>"+list);
 		//gson 객체 생성
 		Gson gson = new Gson();

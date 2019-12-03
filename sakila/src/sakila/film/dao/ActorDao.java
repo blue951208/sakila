@@ -46,20 +46,20 @@ public class ActorDao {
 		return count;
 	}
 	//actor 리스트 출력
-	public List<Actor> selectActorList(){//int beginRow, int rowPerPage){
-		System.out.println("actor dao select List,page>");//+ beginRow);
+	public List<Actor> selectActorList(int beginRow, int rowPerPage){
+		System.out.println("actor dao select List,page>"+ beginRow+" &"+rowPerPage);
 		List<Actor> list = new ArrayList();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT actor_id,CONCAT(first_name,' ',last_name) as name"
-				+" FROM actor limit 10";
+				+" FROM actor limit ?,?";
 		//오류 체크
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
-	/*		stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);*/
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
 				while(rs.next()) {
 					Actor actor = new Actor();

@@ -40,11 +40,14 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-
-
+	let currentPage=1;
+	 $("#prev").hide();
 	 $.ajax({
 		url:"/sakila/getActorList",
-		method:"get",
+		method:"post",
+		data:{
+			"currentPage":currentPage
+		},
 		success:function(json){
 			console.log("리스트 체크"+json);
 			$(json).each(function(index,item){
@@ -54,11 +57,65 @@
 						+"</tr>"
 						);
 			})
-			
-			
 		}
 	 })
+	 
+	 //이전버튼
+	
+		 $("#prev").show();
+		 $("#prev").click(function(){
+			 $("#actorList").empty();
+			 currentPage-=1;
+			 console.log(currentPage)
+			 $.ajax({
+				url:"/sakila/getActorList",
+				method:"post",
+				data:{
+					"currentPage":currentPage
+				},
+			 	success:function(json){
+					console.log("리스트 체크"+json);
+					$(json).each(function(index,item){
+						$("#actorList").append(
+								"<tr><td class='id'>"+item.actorId+"</td>"
+								+"<td>"+item.name+"</a></td>"
+								+"</tr>"
+								);
+					})
+				}
+			 }) 
+		 })
+	
 
+	 
+	 
+	 //if(currentPage<lastPage){
+		 
+		// $("#next").show();
+		 $("#next").click(function(){
+			 $("#actorList").empty();
+			 currentPage+=1;
+			 $.ajax({
+				url:"/sakila/getActorList",
+				method:"post",
+				data:{
+					"currentPage":currentPage
+				},
+			 	success:function(json){
+					console.log("page-"+currentPage);
+					$(json).each(function(index,item){
+						$("#actorList").append(
+								"<tr><td class='id'>"+item.actorId+"</td>"
+								+"<td>"+item.name+"</a></td>"
+								+"</tr>"
+								);
+					})
+				}
+			 }) 
+		 })
+	 //}else{
+		// $("#next").hide();
+	 //}
 		
 	 $("#actorFilm").click(function(){
 		 $("#filmList").empty();
