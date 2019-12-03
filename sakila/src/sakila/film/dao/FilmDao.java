@@ -105,7 +105,6 @@ public class FilmDao {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1,name);
-			System.out.println("sql:>"+sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Film film = new Film();
