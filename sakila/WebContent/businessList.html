@@ -9,21 +9,27 @@
 	<h1>대여정보</h1>
 	<span>이름 입력:</span><input type="text" id="name">
 		<button id="rental">확인</button>
-		<table>
-			<thead>
-				<tr>이름</tr>
-				<tr>영화제목</tr>
-				<tr>대여한 날 </tr>
-				<tr>반납한 날</tr>
-			</thead>
-			<tbody id="rentalList">
-				
-			</tbody>
-		</table>
+		<div id="rentalAll">	
+			<table>
+				<thead>
+					<tr>이름</tr>
+					<tr>영화제목</tr>
+					<tr>대여한 날 </tr>
+					<tr>반납한 날</tr>
+				</thead>
+				<tbody id="rentalList">
+					
+				</tbody>
+			</table>
+			<button type="button" id="prev">이전</button>
+			<button type="button" id="next">다음</button>
+		</div>	
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+	$("#rentalAll").hide()
 	$("#rental").click(function(){
+		$("#rentalAll").show();
 		$("#rentalList").empty();
 		$.ajax({
 			url:"/sakila/SelectRentalList",
@@ -45,5 +51,6 @@
 			}
 		})
 	})
+	$
 </script>
 </html>
