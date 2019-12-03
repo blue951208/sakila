@@ -18,7 +18,7 @@ import sakila.film.dao.FilmDao;
  * Servlet implementation class GetFilmbyStore
  */
 @WebServlet("/getFilmbyStore")
-public class GetFilmbyStore extends HttpServlet {
+public class SelectFilmByStore extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("Application/json");
 		

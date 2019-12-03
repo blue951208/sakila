@@ -21,7 +21,7 @@ import sakila.vo.Actor;
  * Servlet implementation class ActorController
  */
 @WebServlet("/getActorList")
-public class ActorController extends HttpServlet {
+public class SelectActorList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("actor Controller 확인");
 		//데이터 타입 지정

@@ -5,6 +5,36 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>대여정보</h1>
+	<span>이름 입력:</span><input type="text" id="name">
+		<button id="rental"></button>
+		<table>
+			<thead>
+				<tr>이름</tr>
+				<tr>영화제목</tr>
+				<tr>대여한 날 </tr>
+				<tr>반납한 날</tr>
+			</thead>
+			<tbody id="rentalList">
+				
+			</tbody>
+		</table>
 </body>
+<script src="/jquery-ex/scripts/jquery-3.4.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$("#rental").click(functino(){
+		$("#rentalList").empty();
+		$.ajax({
+			url:"",
+			method:"post",
+			data:{
+				"name":$("#name").val()
+			},
+			success:function(){
+				console.log("success");
+			}
+		})
+	})
+</script>
 </html>
