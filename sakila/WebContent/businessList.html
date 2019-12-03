@@ -27,7 +27,11 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+	
+	let currentPage=1;
+
 	$("#rentalAll").hide()
+	
 	$("#rental").click(function(){
 		$("#rentalAll").show();
 		$("#rentalList").empty();
@@ -35,7 +39,8 @@
 			url:"/sakila/SelectRentalList",
 			method:"post",
 			data:{
-				"name":$("#name").val()
+				"name":$("#name").val(),
+				"currentPage":currentPage
 			},
 			success:function(json){
 				console.log(json);
@@ -51,6 +56,55 @@
 			}
 		})
 	})
-	$
+	
+	$("#prev").click(function(){
+		currentPage-=1;
+		$("#rentalList").empty();
+		$.ajax({
+			url:"/sakila/SelectRentalList",
+			method:"post",
+			data:{
+				"name":$("#name").val(),
+				"currentPage":currentPage
+			},
+			success:function(json){
+				console.log(json);
+				$(json).each(function(index,item){
+				$("#rentalList").append("<tr>"
+						+"<td>"+item.name+"</td>"
+						+"<td>"+item.title+"</td>"
+						+"<td>"+item.rentalDate+"</td>"
+						+"<td>"+item.returnDate+"</td>"
+						+"</tr>"
+						);
+				})
+			}
+		})
+	})
+	
+	$("#next").click(function(){
+		currentPage+=1;
+		$("#rentalList").empty();
+		$.ajax({
+			url:"/sakila/SelectRentalList",
+			method:"post",
+			data:{
+				"name":$("#name").val(),
+				"currentPage":currentPage
+			},
+			success:function(json){
+				console.log(json);
+				$(json).each(function(index,item){
+				$("#rentalList").append("<tr>"
+						+"<td>"+item.name+"</td>"
+						+"<td>"+item.title+"</td>"
+						+"<td>"+item.rentalDate+"</td>"
+						+"<td>"+item.returnDate+"</td>"
+						+"</tr>"
+						);
+				})
+			}
+		})
+	})
 </script>
 </html>

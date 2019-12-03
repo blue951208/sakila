@@ -24,11 +24,16 @@ public class SelectRentalList extends HttpServlet {
 		response.setContentType("Application/json");
 		//이름 입력값 받기
 		String name = request.getParameter("name");
-		System.out.println("name>>"+name);
+		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		System.out.println("name>>"+name+"\n page:"+currentPage);
 		//이름값을 dao에 매게변수로 메소드 호출,list에 저장
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		RentalDao rentalDao = new RentalDao();
-		list = rentalDao.getRentalList(name);
+		//paging ->biginRow ,rowPerPage설정
+		int rowPerPage = 10;
+		int beginRow = (currentPage-1)*rowPerPage;
+		
+		list = rentalDao.getRentalList(name,beginRow,rowPerPage);
 		System.out.println("controller ck:"+list);
 		//list를 gson타입으로 html에 전송
 		Gson gson = new Gson();

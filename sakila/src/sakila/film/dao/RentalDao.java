@@ -11,7 +11,7 @@ import java.util.Map;
 import sakila.db.DBHelper;
 
 public class RentalDao {
-	public List<Map<String,Object>> getRentalList(String name){
+	public List<Map<String,Object>> getRentalList(String name,int beginRow,int rowPerPage){
 		System.out.println("name 확인:"+name);
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -21,12 +21,15 @@ public class RentalDao {
 		String sql = "SELECT CONCAT(first_name,' ',last_name),f.title,r.rental_date,r.return_date"
 					+" FROM inventory i INNER JOIN film f INNER JOIN rental r INNER JOIN customer c"
 					+" ON i.inventory_id =r.inventory_id AND f.film_id=i.film_id AND c.customer_id=r.customer_id"
-					+" where concat(first_name,'',last_name) like concat('%',?,'%')";
+					+" where concat(first_name,'',last_name) like concat('%',?,'%')"
+					+" limit ?,?";
 		//예외 처리
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, name);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				//map 생성 후 저장
