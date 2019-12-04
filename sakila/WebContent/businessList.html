@@ -36,6 +36,10 @@
         background: white;
     }
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <body>
  <div id="aside">
         <h1>MENU</h1>
@@ -43,7 +47,7 @@
         		<li>
         			<div>Address 관리</div>
         			<ol>
-        				<li><a href="/sakila/country.html">Country 관리</a></li>
+        				<li>Country 관리</li>
         				<li>City 관리</li>
         				<li>Address 관리</li>
         			</ol>
@@ -58,21 +62,23 @@
     <div id="section">
         <h1>대여정보</h1>
 	<span>이름 입력:</span><input type="text" id="name">
-		<button id="rental">확인</button>
+		<button id="rental" class="btn btn-outline-warning">확인</button>
 		<div id="rentalAll">	
-			<table border="1">
+			<table border="1" class="table table-striped">
 				<thead>
-					<tr>이름</tr>
-					<tr>영화제목</tr>
-					<tr>대여한 날 </tr>
-					<tr>반납한 날</tr>
+					<tr>
+					<th>이름</th>
+					<th>영화제목</th>
+					<th>대여한 날 </th>
+					<th>반납한 날</th>
+					</tr>
 				</thead>
 				<tbody id="rentalList">
 					
 				</tbody>
 			</table>
-			<button type="button" id="prev">이전</button>
-			<button type="button" id="next">다음</button>
+			<button type="button" id="prev" class="btn btn-outline-warning">이전</button>
+			<button type="button" id="next" class="btn btn-outline-warning">다음</button>
 		</div>	
 
     </div>

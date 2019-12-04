@@ -35,6 +35,10 @@
         background: white;
     }
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <body>  
 	 <div id="aside">
         <h1>MENU</h1>
@@ -42,7 +46,7 @@
         		<li>
         			<div>Address 관리</div>
         			<ol>
-        				<li><a href="/sakila/country.html">Country 관리</a></li>
+        				<li>Country 관리</li>
         				<li>City 관리</li>
         				<li>Address 관리</li>
         			</ol>
@@ -57,10 +61,12 @@
     <div id="section">
 		<h1>영화 추가</h1>
 	<div>
-		제목:<input type="text" id="title">
-		설명:<input type="text" id="description">
-		개봉 년도:<input type="text" id="releaseYear">
-		언어:<select id="language">
+		제목:<input type="text" id="title" class="form-control">
+		
+		설명:<textarea class="form-control" rows="5" id="description">
+		</textarea>
+		개봉 년도:<input type="text" id="releaseYear" class="form-control">
+		언어:<select id="language" class="form-control">
 				<option value=1>English</option>
 				<option value=2>Italian</option>
 				<option value=3>Japanese</option>
@@ -68,18 +74,22 @@
 				<option value=5>French</option>
 				<option value=6>German</option>
 			</select><!-- input 타입 변경 바람 -->
-		대여 가능 기간:<input type="text" id="rentalDuration">
-		상영길이:<input type="text" id="length">
-		비용:<input type="text" id="replacementCost">
-		등급:<select>
+		대여 가능 기간:<input type="text" id="rentalDuration" class="form-control">
+		상영길이:<input type="text" id="length" class="form-control">
+		비용:<input type="text" id="replacementCost" class="form-control">
+		등급:<select id="rating" class="form-control">
 				<option>G</option>
 				<option>PG</option>
 				<option>PG-13</option>
 				<option>R</option>
 				<option>NC-17</option>
 			</select>
-		특징 선택<ckeck box>
-        	
+			<div class="form-check-inline">
+				특징 선택<input type="checkbox" class="form-check-input">
+		        	 <input type="checkbox" class="form-check-input" disabled>1
+		        	 <input type="checkbox" class="form-check-input" disabled>2
+		        	 <input type="checkbox" class="form-check-input" disabled>3
+        	 </div>
     </div>
 </body>
 </html>

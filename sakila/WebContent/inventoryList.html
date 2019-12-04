@@ -35,7 +35,10 @@
         background: white;
     }
 </style>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
  	<div id="aside">
@@ -44,7 +47,7 @@
         		<li>
         			<div>Address 관리</div>
         			<ol>
-        				<li><a href="/sakila/country.html">Country 관리</a></li>
+        				<li>Country 관리</li>
         				<li>City 관리</li>
         				<li>Address 관리</li>
         			</ol>
@@ -70,7 +73,7 @@
 		<option value="R">R</option>
 		<option value="NC-17">NC-17</option>
 	</select>
-	<button id="store">확인</button>
+	<button id="store" class="btn btn-outline-warning">확인</button>
 		<table border="1" id="list" class="table table-striped">
 			<thead>
 				<tr>
@@ -91,7 +94,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 	let currentPage=1;
+	$("#list").hide();
 	$("#store").click(function(){
+		$("#list").show();
 		$("#film").empty();
 		console.log($("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
