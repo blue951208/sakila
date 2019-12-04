@@ -4,9 +4,59 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/jquery-ex/scripts/jquery-3.4.1.min.js"></script>
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+    
+    #aside {
+        width: 200px;
+        height: 3000px;
+        position: fixed;
+        background: orange;
+        overflow: hidden;
+        float: left;
+    }
+    
+    #section {
+        margin-left: 300px;
+        margin-right: 500px;
+        margin-bottom: 100px;
+        background: white;
+    }
+</style>
+
 </head>
 <body>
-<h1>Inventory</h1>
+ 	<div id="aside">
+        <h1>MENU</h1>
+			<ul>
+        		<li>
+        			<div>Address 관리</div>
+        			<ol>
+        				<li><a href="/sakila/country.html">Country 관리</a></li>
+        				<li>City 관리</li>
+        				<li>Address 관리</li>
+        			</ol>
+        		</li>
+        		<li><a href="/sakila/customerList.html">Customer 관리</a></li>
+        		<li><a href="/sakila/businessList.html">Business 관리</a></li>
+        		<li><a href="/sakila/inventoryList.html">Inventory 관리</a></li>
+        		<!-- 배우 목록  -->
+        		<li><a href="/sakila/actorList.html">배우</a></li>
+        	</ul>
+    </div>
+	 <div id="section">
 	<select id="storeId">
 		<option value="0">All</option>
 		<option value="1">First Store</option>
@@ -21,21 +71,22 @@
 		<option value="NC-17">NC-17</option>
 	</select>
 	<button id="store">확인</button>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>가게번호</th>
-				<th>제목</th>
-				<th>줄거리</th>
-				<th>개봉년도</th>
-				<th>대여비용</th>
-				<th>등급</th>
-			</tr>
-		</thead>
-		<tbody id="film">
-			
-		</tbody>
-	</table>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>가게번호</th>
+					<th>제목</th>
+					<th>줄거리</th>
+					<th>개봉년도</th>
+					<th>대여비용</th>
+					<th>등급</th>
+				</tr>
+			</thead>
+			<tbody id="film">
+				
+			</tbody>
+		</table>
+	</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
