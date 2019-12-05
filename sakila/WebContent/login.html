@@ -42,7 +42,19 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <body>
     <div id="aside">
-        <h1>MENU</h1>
+      <div id="section">
+        <div class="row">
+			<div class="col-sm-1">
+		<h1>MENU</h1>
+			</div>        	
+        	<div class="col-sm-10"></div>
+        	<div class="col-sm-1">
+        		<a href="/sakila/login.html">로그인</a>
+        		<a href="/sakila/">로그아웃</a>
+        	</div>
+        </div>	
+    </div>
+        
 			<ul>
         		<li>
         			<div>Address 관리</div>
@@ -66,10 +78,31 @@
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
-        		<a href="/sakila/login.html">로그인</a>
+        		<a href="/sakila/Login.html">로그인</a>
         		<a href="/sakila/">로그아웃</a>
         	</div>
-        </div>	
+        </div>
+        <h1>로그인</h1>
+        	사원 번호:<input type="text" id="staffId" class="form-control">
+        	비밀 번호:<input type="password" id="password" class="form-control">
+        	<button type="button" id="login">Login</button>	
     </div>
 </body>
+
+<script>
+	let row=0;
+	$("#login").click(function(){
+		$.ajax({
+			url:"/sakila/login",
+			method:"post",
+			data:{
+				"staffId":$("#staffId").val(),
+				"password":$("#password").val()
+			},
+			success: function(){
+					location.href = "/sakila/index.html"
+				}
+		})
+	})
+</script>
 </html>
