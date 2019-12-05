@@ -44,12 +44,16 @@
         <h1>MENU</h1>
 			<ul>
         		<li>
-        			<div>Address 관리</div>
-        			<ol>
-        				<li>Country 관리</li>
-        				<li>City 관리</li>
-        				<li><a href="">영화 입력</a></li>
-        			</ol>
+        			<div class="dropdown">
+        			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        				관리자 메뉴
+        			</button>
+	        			<div class="dropdown-menu">
+	        				<a class="dropdown-item" href="">Country 관리</a>
+	        				<a class="dropdown-item" href="">City 관리</a>
+	        				<a class="dropdown-item" href="/sakila/insertFilmForm.html">영화 입력</a>
+	        			</div>
+        			</div>
         		</li>
         		<li><a href="/sakila/customerList.html">Customer 관리</a></li>
         		<li><a href="/sakila/businessList.html">Business 관리</a></li>
@@ -85,11 +89,43 @@
 				<option>NC-17</option>
 			</select>
 			<div class="form-check-inline">
-				특징 선택<input type="checkbox" class="form-check-input">
-		        	 <input type="checkbox" class="form-check-input" disabled>1
-		        	 <input type="checkbox" class="form-check-input" disabled>2
-		        	 <input type="checkbox" class="form-check-input" disabled>3
+				특징 선택
+		        	 <input type="checkbox" name="ck" class="check" value="1">1
+		        	 <input type="checkbox" name="ck" class="check" value="2">2
+		        	 <input type="checkbox" name="ck" class="check" value="3">3
         	 </div>
+        	 <button type="button" class="btn btn-primary btn-block" id="filmInsert">입력</button>
     </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	let checkList;
+	
+	$("#filmInsert").click(function(){
+		checkList = new Array;
+		$("input:checkbox[name='ck']:checked").each(function(i){
+			checkList.push($(this).val());
+		});
+			console.log(checkList);
+	})
+	
+	$.ajax({
+		url:"/sakila/InsertFilmServlet",
+		method:"post",
+		data:{
+			"title":$("#title").val(),
+			"description":$("#description").val(),
+			"language":$("#language").val(),
+			"rentalDuration":$("#rentalDuration").val(),
+			"length":$("#length").val(),
+			"replacemeentCost":$("#replacemeentCost").val(),
+			"rating":$("#rating").val(),
+			"specialFeatures":$("#specialFeatures").val()	
+		},
+		success:function(){
+			console.log("success");
+		}
+	})
+	
+</script>
 </html>
