@@ -46,25 +46,26 @@
 			<ul>
         		<li>
         			<div>관리자 메뉴</div>
-        			<ol>
-        				<li>Country 관리</li>
-        				<li>City 관리</li>
-        				<li><a href="/sakila/insertFilmForm.html">영화 입력</a></li>
-        			</ol>
-        		</li>
-        		<li><a href="/sakila/customerList.html">Customer 관리</a></li>
-        		<li><a href="/sakila/businessList.html">Business 관리</a></li>
-        		<li><a href="/sakila/inventoryList.html">Inventory 관리</a></li>
+        			
+        				Country 관리
+        				City 관리
+        				<a href="/sakila/insertFilmForm.html">영화 입력</a>
+        		
+        		<a href="/sakila/customerList.html">Customer 관리</a>
+        		<a href="/sakila/businessList.html">Business 관리</a>
+        		<a href="/sakila/inventoryList.html">Inventory 관리</a>
         		<!-- 배우 목록  -->
-        		<li><a href="/sakila/actorList.html">배우</a></li>
+        		<a href="/sakila/actorList.html">배우</a>
         	</ul>
     </div>
 	 <div id="section">
+	 가게
 	<select id="storeId">
 		<option value="0">All</option>
 		<option value="1">First Store</option>
 		<option value="2">Second Store</option>
 	</select>
+	등급
 	<select id=rating>
 		<option value="All">All</option>
 		<option value="G">G</option>
@@ -72,6 +73,10 @@
 		<option value="PG-13">PG-13</option>
 		<option value="R">R</option>
 		<option value="NC-17">NC-17</option>
+	</select>
+	장르
+	<select id="categoryList">
+
 	</select>
 	<button id="store" class="btn btn-outline-warning">확인</button>
 		<table border="1" id="list" class="table table-striped">
@@ -93,19 +98,35 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+
 	let currentPage=1;
 	$("#list").hide();
+	
+	$.ajax({
+		url:"/sakila/GetCategoryList",
+		method:"post",
+		success:function(json){
+			console.log("success")
+			console.log(json);
+			$(json).each(function(index,item){
+				$("#categoryList").append("<option value='"+item.name+"'>"+item.name+"</option>");
+			});
+		}
+	});
+	
+
 	$("#store").click(function(){
 		$("#list").show();
 		$("#film").empty();
 		console.log($("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
 			$.ajax({
-				url:"/sakila/getFilmbyStore", 
+				url:"/sakila/selectFilmbyStore", 
 				method:"post",
 				data:{
 					"storeId":$("#storeId").val(),
-					"rating":$("#rating").val()
+					"rating":$("#rating").val(),
+					"category":$("#categoryList").val()
 					},
 				success:function(json){
 					console.log(json);
@@ -122,5 +143,6 @@
 				}
 			})
 	});
+		
 </script>
 </html>
