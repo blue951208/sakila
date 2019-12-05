@@ -1,5 +1,7 @@
 package sakila.vo;
 
+import java.util.Arrays;
+
 public class Film {
 	private int filmId;
 	private String title;
@@ -7,12 +9,19 @@ public class Film {
 	private String releaseYear;
 	private Language language;
 	private int rentalDuration;
-	private double rentalRate;
+	private int rentalRate;
 	private int length;
-	private double replacementCost;
+	private int replacementCost;
 	private String rating;
 	private String specialFeatures;
 	private String lastUpdate;
+	@Override
+	public String toString() {
+		return "Film [filmId=" + filmId + ", title=" + title + ", description=" + description + ", releaseYear="
+				+ releaseYear + ", language=" + language + ", rentalDuration=" + rentalDuration + ", rentalRate="
+				+ rentalRate + ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
+				+ ", specialFeatures=" + specialFeatures+ ", lastUpdate=" + lastUpdate + "]";
+	}
 	public int getFilmId() {
 		return filmId;
 	}
@@ -34,8 +43,8 @@ public class Film {
 	public String getReleaseYear() {
 		return releaseYear;
 	}
-	public void setReleaseYear(String releaseYear) {
-		this.releaseYear = releaseYear;
+	public void setReleaseYear(String string) {
+		this.releaseYear = string;
 	}
 	public Language getLanguage() {
 		return language;
@@ -52,7 +61,7 @@ public class Film {
 	public double getRentalRate() {
 		return rentalRate;
 	}
-	public void setRentalRate(double rentalRate) {
+	public void setRentalRate(int rentalRate) {
 		this.rentalRate = rentalRate;
 	}
 	public int getLength() {
@@ -64,7 +73,7 @@ public class Film {
 	public double getReplacementCost() {
 		return replacementCost;
 	}
-	public void setReplacementCost(double replacementCost) {
+	public void setReplacementCost(int replacementCost) {
 		this.replacementCost = replacementCost;
 	}
 	public String getRating() {
@@ -85,13 +94,6 @@ public class Film {
 	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	@Override
-	public String toString() {
-		return "Film [filmId=" + filmId + ", title=" + title + ", description=" + description + ", releaseYear="
-				+ releaseYear + ", language=" + language + ", rentalDuration=" + rentalDuration + ", rentalRate="
-				+ rentalRate + ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
-				+ ", specialFeatures=" + specialFeatures + ", lastUpdate=" + lastUpdate + "]";
-	}
-	
+		
 	
 }

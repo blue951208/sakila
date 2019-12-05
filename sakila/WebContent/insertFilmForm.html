@@ -79,8 +79,9 @@
 				<option value=6>German</option>
 			</select><!-- input 타입 변경 바람 -->
 		대여 가능 기간:<input type="text" id="rentalDuration" class="form-control">
+		비용:<input type="text" id="rentalRate" class="form-control">
 		상영길이:<input type="text" id="length" class="form-control">
-		비용:<input type="text" id="replacementCost" class="form-control">
+		대체 비용:<input type="text" id="replacementCost" class="form-control">
 		등급:<select id="rating" class="form-control">
 				<option>G</option>
 				<option>PG</option>
@@ -90,9 +91,10 @@
 			</select>
 			<div class="form-check-inline">
 				특징 선택
-		        	 <input type="checkbox" name="ck" class="check" value="1">1
-		        	 <input type="checkbox" name="ck" class="check" value="2">2
-		        	 <input type="checkbox" name="ck" class="check" value="3">3
+		        	 <input type="checkbox" name="ck" class="check" value="Trailers">Trailers
+		        	 <input type="checkbox" name="ck" class="check" value="Commentaries">Commentaries
+		        	 <input type="checkbox" name="ck" class="check" value="Deleted Scenes">Deleted Scenes
+		        	 <input type="checkbox" name="ck" class="check" value="Behind the Scenes">Behind the Scenes
         	 </div>
         	 <button type="button" class="btn btn-primary btn-block" id="filmInsert">입력</button>
     </div>
@@ -107,25 +109,28 @@
 			checkList.push($(this).val());
 		});
 			console.log(checkList);
+			
+			$.ajax({
+				url:"/sakila/InsertFilmServlet",
+				method:"post",
+				data:{
+					"title":$("#title").val(),
+					"description":$("#description").val(),
+					"releaseYear":$("#releaseYear").val(),
+					"rentalRate":$("#rentalRate").val(),
+					"language":$("#language").val(),
+					"rentalDuration":$("#rentalDuration").val(),
+					"length":$("#length").val(),
+					"replacementCost":$("#replacementCost").val(),
+					"rating":$("#rating").val(),
+					"specialFeatures":checkList	
+				},
+				success:function(){
+					console.log("success");
+				}
+			})
 	})
 	
-	$.ajax({
-		url:"/sakila/InsertFilmServlet",
-		method:"post",
-		data:{
-			"title":$("#title").val(),
-			"description":$("#description").val(),
-			"language":$("#language").val(),
-			"rentalDuration":$("#rentalDuration").val(),
-			"length":$("#length").val(),
-			"replacemeentCost":$("#replacemeentCost").val(),
-			"rating":$("#rating").val(),
-			"specialFeatures":$("#specialFeatures").val()	
-		},
-		success:function(){
-			console.log("success");
-		}
-	})
 	
 </script>
 </html>

@@ -12,6 +12,47 @@ import sakila.vo.Film;
 import sakila.vo.Store;
 
 public class FilmDao {
+	//film 테이블에 영화 입력
+	public int insertFilmList(Film film) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		int row = 0;
+		String sql="insert into film("
+				+"title,description,release_year"
+				+",language_id,original_language_id,"
+				+"rental_duration,rental_rate,length,"
+				+"replacement_cost,rating,special_features)"
+				+"values(?,?,?,?,?,?,?,?,?,?,?)";
+		String features="";
+			try{
+				conn = DBHelper.getConnection();
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, film.getTitle());
+				stmt.setString(2, film.getDescription());
+				stmt.setString(3, film.getReleaseYear());
+				stmt.setInt(4,film.getLanguage().getLanguageId());
+				stmt.setInt(5,film.getLanguage().getLanguageId());
+				stmt.setInt(6,film.getRentalDuration());
+				stmt.setInt(7, (int) film.getRentalRate());
+				stmt.setInt(8, film.getLength());
+				stmt.setInt(9, (int) film.getReplacementCost());
+				stmt.setString(10, film.getRating());
+				stmt.setString(11, film.getSpecialFeatures());
+				row = stmt.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					stmt.close();
+					conn.close();
+				}catch(Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+			return row;
+	}
+	
 	//선택한 가게에따라 존재하는 영화 리스트 출력
 	public List<Map<String,Object>> selectFilmByStore(int storeId,String rating){
 		List<Map<String, Object>> list = new ArrayList();
