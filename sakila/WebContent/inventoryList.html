@@ -41,21 +41,26 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
- 	<div id="aside">
+ <div id="aside">
         <h1>MENU</h1>
 			<ul>
         		<li>
-        			<div>관리자 메뉴</div>
-        			
-        				Country 관리
-        				City 관리
-        				<a href="/sakila/insertFilmForm.html">영화 입력</a>
-        		
-        		<a href="/sakila/customerList.html">Customer 관리</a>
-        		<a href="/sakila/businessList.html">Business 관리</a>
-        		<a href="/sakila/inventoryList.html">Inventory 관리</a>
+        			<div class="dropdown">
+        			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        				관리자 메뉴
+        			</button>
+	        			<div class="dropdown-menu">
+	        				<a class="dropdown-item" href="">Country 관리</a>
+	        				<a class="dropdown-item" href="">City 관리</a>
+	        				<a class="dropdown-item" href="/sakila/insertFilmForm.html">영화 입력</a>
+	        			</div>
+        			</div>
+        		</li>
+        		<!-- <a href="/sakila/customerList.html">Customer 관리</a> -->
+        		<li><a href="/sakila/businessList.html">Business 관리</a></li>
+        		<li><a href="/sakila/inventoryList.html">Inventory 관리</a></li>
         		<!-- 배우 목록  -->
-        		<a href="/sakila/actorList.html">배우</a>
+        		<li><a href="/sakila/actorList.html">배우</a></li>
         	</ul>
     </div>
 	 <div id="section">
@@ -125,8 +130,8 @@
 				method:"post",
 				data:{
 					"storeId":$("#storeId").val(),
-					"rating":$("#rating").val(),
-					"category":$("#categoryList").val()
+					"rating":$("#rating").val()
+					//,"category":$("#categoryList").val()
 					},
 				success:function(json){
 					console.log(json);

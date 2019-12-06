@@ -72,6 +72,7 @@
         	</ul>
     </div>
     <div id="section">
+    	<button type="button" id="test">TEST</button>
         <div class="row">
 			<div class="col-sm-1">
 				<h1>INDEX</h1>
@@ -87,10 +88,15 @@
         	비밀 번호:<input type="password" id="password" class="form-control">
         	<button type="button" id="login">Login</button>	
     </div>
+    
 </body>
 
 <script>
 	let row=0;
+	$("#test").click(function(){
+		location.href = "/sakila/index.html";
+	})
+	
 	$("#login").click(function(){
 		$.ajax({
 			url:"/sakila/login",
@@ -100,7 +106,9 @@
 				"password":$("#password").val()
 			},
 			success: function(){
-					location.href = "/sakila/index.html"
+					console.log("success");
+					//location.href = "/sakila/index.html"
+					$.ajax({});
 				}
 		})
 	})

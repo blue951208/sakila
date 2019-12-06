@@ -30,13 +30,12 @@ public class LoginServlet extends HttpServlet {
 			staff.setPassword(password);
 			StaffDao staffDao = new StaffDao();
 			
-			Staff staffOne = staffDao.selectStaffOne(staffId);
-			if(staffOne.getPassword()==password) {
-				HttpSession session = request.getSession();
-				 //session 에 값을 저장 , sessionInfo 라는 키워드로 
-				session.setAttribute("sessionInfo",staffOne.getStaffId());
-			}
+			Staff staffOne = staffDao.selectStaffOne(staff);
+			System.out.println("확인:"+staffOne);
 			
+			HttpSession session = request.getSession();
+			 //session 에 값을 저장 , sessionInfo 라는 키워드로 
+			session.setAttribute("sessionInfo",staffOne.getStaffId());
 			
 		}
 
