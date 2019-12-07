@@ -22,7 +22,6 @@ public class LoginServlet extends HttpServlet {
 			int staffId = Integer.parseInt(request.getParameter("staffId"));
 			String password = request.getParameter("password");
 			
-			response.setContentType("Application/json;charset=utf=8");
 			int row = 0;
 			//staff table 에서 id번호와 페스워드 일치시 row =1 을 리턴 
 			Staff staff = new Staff();
@@ -32,11 +31,12 @@ public class LoginServlet extends HttpServlet {
 			
 			Staff staffOne = staffDao.selectStaffOne(staff);
 			System.out.println("확인:"+staffOne);
-			
-			HttpSession session = request.getSession();
-			 //session 에 값을 저장 , sessionInfo 라는 키워드로 
-			session.setAttribute("sessionInfo",staffOne.getStaffId());
-			
+			if(staffOne.getPassword()!=null) {
+				HttpSession session = request.getSession();
+				 //session 에 값을 저장 , sessionInfo 라는 키워드로 
+				session.setAttribute("sessionInfo",staffOne.getStaffId());
+				System.out.println("session"+session.getAttribute("sessionInfo"));
+			}
 		}
 
 }
