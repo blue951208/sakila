@@ -68,4 +68,18 @@
     </div>
 
 </body>
+<script>
+	$("#adminMenu").hide();
+	let loginState;
+	$.ajax({
+		url:"/sakila/SessionCheck",
+		method:"post",
+		success:function(json){
+			loginState = json;
+			if(login!=null){
+				$("#adminMenu").show();
+			}
+		}
+	})
+</script>
 </html>

@@ -45,7 +45,7 @@
         <h1>MENU</h1>
 			<ul>
         		<li>
-        			<div class="dropdown">
+        		<div class="dropdown" id="adminMenu">
         			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
         				관리자 메뉴
         			</button>
@@ -101,6 +101,19 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+	$("#adminMenu").hide();
+	let loginState;
+	$.ajax({
+		url:"/sakila/SessionCheck",
+		method:"post",
+		success:function(json){
+			loginState = json;
+			if(login!=null){
+				$("#adminMenu").show();
+			}
+		}
+	})
+
 	let currentPage=1;
 	//$("#aprev").hide();
 	$("#list").hide();
