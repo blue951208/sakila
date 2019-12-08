@@ -9,9 +9,46 @@ import java.util.Map;
 import sakila.db.DBHelper;
 import sakila.vo.Actor;
 import sakila.vo.Film;
+import sakila.vo.Inven;
 import sakila.vo.Store;
 
 public class FilmDao {
+	public Inven selectInventory(String title){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select f.title,i.inventory_id,count(*) "
+				+"from film f inner join inventory i "
+				+"on f.film_id=i.film_id "
+				+"where title=? "
+				+"group by f.film_id";
+		Inven inven = new Inven();
+		try {
+			//db 연결
+			conn = DBHelper.getConnection();
+			//쿼리 실행
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, title);
+			//결과
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				inven.setCount(rs.getInt("count(*)"));
+				inven.setInventoryId(rs.getInt("i.inventory_id"));
+				inven.setTitle(rs.getString("f.title"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+			rs.close();
+			stmt.close();
+			conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return inven;
+	}
 	//film 테이블에 영화 입력
 	public int insertFilmList(Film film) {
 		Connection conn = null;

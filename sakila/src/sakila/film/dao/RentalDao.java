@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import sakila.db.DBHelper;
+import sakila.vo.Rental;
 
 public class RentalDao {
 	public List<Map<String,Object>> getRentalList(String name,int beginRow,int rowPerPage){
@@ -55,5 +56,30 @@ public class RentalDao {
 		System.out.println("list>"+list);
 		return list;
 	}
-	
+	public int insertRental(Rental rental){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		int row=0;
+		String sql ="insert into rental("
+				+"inventory_id,customer_id,staff_id)"
+				+ "values(?,?,?)";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, rental.getInventoryId());
+			stmt.setInt(2, rental.getCustomerId());
+			stmt.setInt(3, rental.getStaffId());
+			row = stmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return row;
+	}
 }

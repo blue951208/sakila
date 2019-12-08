@@ -73,21 +73,78 @@
     			<a href="/sakila/login.html">로그인</a>
         		<a href="/sakila/logout">로그아웃</a>
         	</div>
-        </div>	
+        </div>
+        
+        	고객 이름
+        	<input type="text" id="firstName">
+        	<input type="text" id="lastName">
+     		영화 이름<input type="text" id="inventory"><button type="button" id="searchFilm">재고 확인</button>
+     		<table id="filmList">
+     			<thead>
+     				<tr>
+     					<th>영화 제목</th>
+     					<th>재고수</th>
+     				</tr>
+     			</thead>
+     			<tbody id="inven">
+     			</tbody>
+     		</table>
+     		<button type="button" id="rental">Rental</button>
     </div>
 </body>
 <script>
 	$("#adminMenu").hide();
+	$("#rental").hide();
 	let loginState;
+	let inventoryId;
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
 		success:function(json){
 			loginState = json;
-			if(login!=null){
+			if(loginState!=null){
 				$("#adminMenu").show();
 			}
 		}
+	})
+	
+	$("#searchFilm").click(function(){
+			$.ajax({
+				url:"/sakila/GetFilmOne",
+				method:"post",
+				data:{
+					"title":$("#inventory").val()
+				},
+				success:function(json){
+					let rentalFilm = JSON.parse(json);
+					inventoryId = rentalFilm.inventoryId;
+					if(rentalFilm.count>0){
+						$("#rental").show();
+					}
+					console.log(rentalFilm);
+						$("#inven").append("<tr>"
+								+"<td>"+rentalFilm.title+"</td>"
+								+"<td>"+rentalFilm.count+"</td>"
+								+"</tr>");
+				}
+			})
+		})
+	
+	
+	$("#rental").click(function(){
+		$.ajax({
+			url:"/sakila/InsertRentalServlet",
+			method:"post",
+			data:{
+				"firstName":$("#firstName").val(),
+				"lastName":$("#lastName").val(),
+				"inventoryId":inventoryId,
+				"staffId":loginState
+			},
+			success:function(){
+				
+			}
+		})
 	})
 </script>
 </html>

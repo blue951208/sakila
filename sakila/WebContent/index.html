@@ -84,7 +84,8 @@
 		method:"post",
 		success:function(json){
 			loginState = json;
-			if(login!=null){
+			if(loginState!=null){
+				console.log(loginState);
 				$("#adminMenu").show();
 			}
 		}
