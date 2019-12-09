@@ -70,8 +70,8 @@
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
-    			<a href="/sakila/login.html">로그인</a>
-        		<a href="/sakila/logout">로그아웃</a>
+    			<!-- <a href="/sakila/login.html">로그인</a> -->
+        			<button type="button" id="logout">로그아웃</button>
         	</div>
         </div>
         
@@ -94,18 +94,34 @@
 </body>
 <script>
 	$("#adminMenu").hide();
-	$("#rental").hide();
 	let loginState;
-	let inventoryId;
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
 		success:function(json){
 			loginState = json;
 			if(loginState!=null){
+				console.log(loginState);
 				$("#adminMenu").show();
+				$("#login").hide();
+				$("#logout").show();
+			}else{
+				$("#adminMenu").hide();
+				$("#logout").hide();
+				$("#login").show();
 			}
 		}
+	})
+	
+	$("#logout").click(function(){
+		$.ajax({
+			url:"/sakila/logout",
+			method:"post",
+			success:function(){
+				location.href = "/sakila/index.html";
+				return false;//function 종료 
+			}
+		})
 	})
 	
 	$("#searchFilm").click(function(){
