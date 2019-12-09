@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import sakila.film.dao.ActorDao;
+import sakila.film.dao.FilmDao;
+import sakila.film.dao.RentalDao;
 import sakila.vo.Paging;
 
 /**
@@ -18,13 +20,27 @@ import sakila.vo.Paging;
 @WebServlet("/getLastPage")
 public class GetLastPage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("전체 페이지 확인");
-		response.setContentType("Application/json;charset=utf=8");
 		
-		ActorDao actorDao = new ActorDao();
-		int count = actorDao.selectCount();
+		int menuNo = Integer.parseInt(request.getParameter("menuNo"));
+		System.out.println("전체 페이지 확인"+menuNo);
+		response.setContentType("Application/json;charset=utf=8");
+		int count=0;
+			if(menuNo==3) {
+				ActorDao actorDao = new ActorDao();
+				count = actorDao.selectCount();
+			}else if(menuNo==2) {
+				FilmDao filmDao = new FilmDao();
+				//count = FilmDao.selectCount();
+			}else if(menuNo==1) {
+				RentalDao rentalDao = new RentalDao();
+				String name = request.getParameter("name");
+				count = rentalDao.selectCount(name);
+			}
 		int rowPerPage =10;
 		int lastPage = count/rowPerPage;
+		if(count%rowPerPage!=0) {
+			lastPage+=1;
+		}
 		System.out.println("last:"+lastPage);
 		Paging paging = new Paging();
 		paging.setLastPage(lastPage);

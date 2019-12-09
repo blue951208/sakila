@@ -132,6 +132,7 @@
 		}
 	})
 	
+	
 	$("#logout").click(function(){
 		$.ajax({
 			url:"/sakila/logout",
@@ -175,16 +176,4 @@
 	
 	
 </script>
-	$("#adminMenu").hide();
-	let loginState;
-	$.ajax({
-		url:"/sakila/SessionCheck",
-		method:"post",
-		success:function(json){
-			loginState = json;
-			if(login!=null){
-				$("#adminMenu").show();
-			}
-		}
-	})
 </html>

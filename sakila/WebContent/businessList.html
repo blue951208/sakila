@@ -99,8 +99,8 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-		
 	$("#adminMenu").hide();
+	$("#prev").hide();
 	let loginState;
 	$.ajax({
 		url:"/sakila/SessionCheck",
@@ -119,7 +119,7 @@
 			}
 		}
 	})
-	
+	//로그아웃 기능
 	$("#logout").click(function(){
 		$.ajax({
 			url:"/sakila/logout",
@@ -132,10 +132,44 @@
 	})
 	
 	let currentPage=1;
-
+	let lastPage=0;
+	
 	$("#rentalAll").hide()
 	
 	$("#rental").click(function(){
+		//전체 행의 수 구하기
+		 $.ajax({
+				url:"/sakila/getLastPage",
+				method:"post",
+				data:{
+					"name":$("#name").val(),
+					"menuNo":1
+				},
+				success:function(json){
+					console.log("대여정보행의 수:",json.lastPage); 
+					lastPage = json.lastPage;
+					console.log("확인:",lastPage);
+				}
+			})
+			console.log("페이지 확인:",currentPage,"마지막 페이지:",lastPage);
+		  /* 	if(currentPage==1){
+				$("#prev").hide();
+				$("#next").show();
+			}
+		 else{
+				$("#next").show();
+				$("#prev").show();
+			}
+		
+		if(currentPage==lastPage){
+			$("#next").hide();
+			$("#prev").show();
+		}else{
+			$("#next").show();
+			$("#prev").show();
+		} */
+
+			
 		$("#rentalAll").show();
 		$("#rentalList").empty();
 		$.ajax({
@@ -159,9 +193,49 @@
 			}
 		})
 	})
-	
+	//이전 버튼 클릭
 	$("#prev").click(function(){
+		$("#next").show();
 		currentPage-=1;
+		//첫페이지일때 이전 버튼 숨기기
+		if(currentPage==1){
+			$("#prev").hide();
+		}else{
+			$("#prev").show();
+		}
+		console.log(currentPage);
+		$("#rentalList").empty();
+		$.ajax({
+			url:"/sakila/SelectRentalList",
+			method:"post",
+			data:{
+				"name":$("#name").val(),
+				"currentPage":currentPage
+			},
+			success:function(json){
+				console.log(json);
+				$(json).each(function(index,item){
+				$("#rentalList").append("<tr>"
+						+"<td>"+item.name+"</td>"
+						+"<td>"+item.title+"</td>"
+						+"<td>"+item.rentalDate+"</td>"
+						+"<td>"+item.returnDate+"</td>"
+						+"</tr>"
+						);
+				})
+			}
+		})
+	})
+	//다음 버튼
+	$("#next").click(function(){
+		$("#prev").show();
+		currentPage+=1;
+		console.log(currentPage);
+		if(currentPage==lastPage){
+			$("#next").hide();
+		}else{
+			$("#next").show();
+		}
 		$("#rentalList").empty();
 		$.ajax({
 			url:"/sakila/SelectRentalList",
@@ -185,29 +259,5 @@
 		})
 	})
 	
-	$("#next").click(function(){
-		currentPage+=1;
-		$("#rentalList").empty();
-		$.ajax({
-			url:"/sakila/SelectRentalList",
-			method:"post",
-			data:{
-				"name":$("#name").val(),
-				"currentPage":currentPage
-			},
-			success:function(json){
-				console.log(json);
-				$(json).each(function(index,item){
-				$("#rentalList").append("<tr>"
-						+"<td>"+item.name+"</td>"
-						+"<td>"+item.title+"</td>"
-						+"<td>"+item.rentalDate+"</td>"
-						+"<td>"+item.returnDate+"</td>"
-						+"</tr>"
-						);
-				})
-			}
-		})
-	})
 </script>
 </html>

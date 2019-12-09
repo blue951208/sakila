@@ -12,6 +12,37 @@ import sakila.db.DBHelper;
 import sakila.vo.Rental;
 
 public class RentalDao {
+	public int selectCount(String name) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int row=0;
+		String sql ="select count(*)"
+				+" FROM inventory i INNER JOIN film f INNER JOIN rental r INNER JOIN customer c"
+				+" ON i.inventory_id =r.inventory_id AND f.film_id=i.film_id AND c.customer_id=r.customer_id" 
+				+" where concat(first_name,'',last_name) like concat('%',?,'%')";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, name);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				row=rs.getInt("count(*)");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+			rs.close();
+			stmt.close();
+			conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
 	public List<Map<String,Object>> getRentalList(String name,int beginRow,int rowPerPage){
 		System.out.println("name 확인:"+name);
 		Connection conn = null;

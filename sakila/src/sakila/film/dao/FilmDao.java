@@ -13,6 +13,13 @@ import sakila.vo.Inven;
 import sakila.vo.Store;
 
 public class FilmDao {
+/*	public int selectCount() {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select count(*) from "
+	}*/
+	
 	public Inven selectInventory(String title){
 		Connection conn = null;
 		PreparedStatement stmt = null;

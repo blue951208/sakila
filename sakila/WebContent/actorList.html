@@ -113,6 +113,7 @@
 <script>
 	$("#adminMenu").hide();
 	let loginState;
+	$("#aprev").hide();
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
@@ -148,6 +149,9 @@
 	 $.ajax({
 			url:"/sakila/getLastPage",
 			method:"post",
+			data:{
+				"menuNo":3
+			},
 			success:function(json){
 				console.log(json.lastPage); 
 				lastPage = json.lastPage;
@@ -179,9 +183,15 @@
 	 //이전버튼
 	
 		 $("#aprev").click(function(){
-			 $("#actorList").empty();
+			$("#anext").show();
+			$("#actorList").empty();
 			 currentPage-=1;
 			 console.log(currentPage)
+			 	if(currentPage==1){
+					$("#aprev").hide();
+				}else{
+					$("#aprev").show(); 
+				}	
 			 $.ajax({
 				url:"/sakila/getActorList",
 				method:"post",
@@ -206,14 +216,17 @@
 		$("#aprev").show();
 	}			
 
-		if(currentPage==lastPage){
-			$("#anext").hide();
-		}else{
-			$("#anext").show();
-		}*/
+	*/
 			 $("#anext").click(function(){
+				 $("#aprev").show();
 				 $("#actorList").empty();
 				 currentPage+=1;
+				 	if(currentPage==lastPage){
+						$("#anext").hide();
+					}else{
+						$("#anext").show();
+					}
+				 
 				 $.ajax({
 					url:"/sakila/getActorList",
 					method:"post",
