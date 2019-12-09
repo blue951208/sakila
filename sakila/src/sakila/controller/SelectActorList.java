@@ -32,12 +32,8 @@ public class SelectActorList extends HttpServlet {
 		ActorDao actorDao = new ActorDao();
 	
 		//paging-- lastPage,currentPage,rowPerPage 설정
-		int count = actorDao.selectCount();
 		int rowPerPage = 10;
-		int lastPage = count/rowPerPage;
-		if(count%rowPerPage!=0) {
-			lastPage += 1;
-		}
+	
 		int currentPage =1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage")); 
@@ -46,10 +42,9 @@ public class SelectActorList extends HttpServlet {
 		int beginRow = (currentPage-1)*rowPerPage;
 		
 		
-		Map<String,Object> map = new HashMap<String,Object>();
+	/*	Map<String,Object> map = new HashMap<String,Object>();
 		map.put("list", list);
-		map.put("currentPage", currentPage);
-		map.put("lastPage", lastPage);	
+		map.put("currentPage", currentPage); */
 		list = actorDao.selectActorList(beginRow,rowPerPage);
 		System.out.println("actor List >>"+list);
 		//gson 객체 생성

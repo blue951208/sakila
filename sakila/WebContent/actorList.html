@@ -143,7 +143,17 @@
 	})
 
 	let currentPage=1;
-	//$("#aprev").hide();
+	let lastPage=0;
+	
+	 $.ajax({
+			url:"/sakila/getLastPage",
+			method:"post",
+			success:function(json){
+				console.log(json.lastPage); 
+				lastPage = json.lastPage;
+			}
+		})
+	
 	$("#list").hide();
 	 $.ajax({
 		url:"/sakila/getActorList",
@@ -153,6 +163,9 @@
 		},
 		success:function(json){
 			console.log("리스트 체크"+json);
+			//json을 배열로 변환
+		//	let paging = eval(json);
+			//console.log(paging);
 			$(json).each(function(index,item){
 				$("#actorList").append(
 						"<tr><td class='id'>"+item.actorId+"</td>"
@@ -165,7 +178,6 @@
 	 
 	 //이전버튼
 	
-		 
 		 $("#aprev").click(function(){
 			 $("#actorList").empty();
 			 currentPage-=1;
@@ -188,37 +200,39 @@
 				}
 			 }) 
 		 })
-	
+	/*if(currentPage==1){
+		$("#aprev").hide();
+	}else{
+		$("#aprev").show();
+	}			
 
-	 
-	 
-	 //if(currentPage<lastPage){
-		 
-		// $("#next").show();
-		 $("#anext").click(function(){
-			 $("#actorList").empty();
-			 currentPage+=1;
-			 $.ajax({
-				url:"/sakila/getActorList",
-				method:"post",
-				data:{
-					"currentPage":currentPage
-				},
-			 	success:function(json){
-					console.log("page-"+currentPage);
-					$(json).each(function(index,item){
-						$("#actorList").append(
-								"<tr><td class='id'>"+item.actorId+"</td>"
-								+"<td>"+item.name+"</a></td>"
-								+"</tr>"
-								);
-					})
-				}
-			 }) 
-		 })
-	 //}else{
-		// $("#next").hide();
-	 //}
+		if(currentPage==lastPage){
+			$("#anext").hide();
+		}else{
+			$("#anext").show();
+		}*/
+			 $("#anext").click(function(){
+				 $("#actorList").empty();
+				 currentPage+=1;
+				 $.ajax({
+					url:"/sakila/getActorList",
+					method:"post",
+					data:{
+						"currentPage":currentPage
+					},
+				 	success:function(json){
+						console.log("page-"+currentPage);
+						$(json).each(function(index,item){
+							$("#actorList").append(
+									"<tr><td class='id'>"+item.actorId+"</td>"
+									+"<td>"+item.name+"</a></td>"
+									+"</tr>"
+									);
+						})
+					}
+				 }) 
+			 })
+		
 		
 	 $("#actorFilm").click(function(){
 		 $("#list").show();
