@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/logout")
 public class Logout extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("로그아웃");
 		//session에 값 비우기
 		request.getSession().invalidate();
