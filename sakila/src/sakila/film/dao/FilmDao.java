@@ -24,7 +24,7 @@ public class FilmDao {
 		if(storeId==0) {
 			if(rating.equals("All")) {//가게 전체일때
 				sql = "select count(*) from " 
-					+"(select count(*) from "
+					+ "(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
 					+"store s inner join inventory i inner join film f "
 					+"on s.store_id=i.store_id and i.film_id=f.film_id "
 					+"group by f.title) s";
@@ -173,7 +173,26 @@ public class FilmDao {
 		
 		String sql;
 		
-		if(rating.contentEquals("All")) {
+	if(storeId!=0) {
+		if(rating.equals("All")) {
+			//선택한 가게에 리스트 출력
+		 sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+				+" from store s inner join inventory i inner join film f"
+				+" on s.store_id=i.store_id and i.film_id=f.film_id"
+				+" where s.store_id=?"
+				+" group by f.title"
+				+" limit ?,?";
+		}else {
+			//선택한 가게에 선택한 등급에 해당하는 리스트 출력
+			sql="select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
+					+" from store s inner join inventory i inner join film f"
+					+" on s.store_id=i.store_id and i.film_id=f.film_id"
+					+" where s.store_id=? and f.rating=?"
+					+" group by f.title"
+					+" limit ?,?";
+		}
+	}else {//가게 전체
+		if(rating.equals("All")) {
 			System.out.println("all & allstore");
 			//전체 리스트 출력
 			sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
@@ -191,50 +210,36 @@ public class FilmDao {
 					+" group by f.title"
 					+" limit ?,?";
 		}
-	if(storeId!=0) {
-		if(rating.contentEquals("All")) {
-			//선택한 가게에 리스트 출력
-		 sql = "select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
-				+" from store s inner join inventory i inner join film f"
-				+" on s.store_id=i.store_id and i.film_id=f.film_id"
-				+" where s.store_id=?"
-				+" group by f.title"
-				+" limit ?,?";
-		}else {
-			//선택한 가게에 선택한 등급에 해당하는 리스트 출력
-			sql="select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
-					+" from store s inner join inventory i inner join film f"
-					+" on s.store_id=i.store_id and i.film_id=f.film_id"
-					+" where s.store_id=? and f.rating=?"
-					+" group by f.title"
-					+" limit ?,?";
-		}
 	}
 			try {
 				conn = DBHelper.getConnection();
 				stmt = conn.prepareStatement(sql);
 			  if(storeId!=0) {
 				  //가게 선택 했을 경우
-				  stmt.setInt(1, storeId); 
-				  if(rating!="All") {
-					  //등급 선택
-					  stmt.setString(2, rating);
-				  }else{
+				  if(rating.equals("All")) {
 					  //등급 전체
+					  stmt.setInt(1, storeId); 
 					  stmt.setInt(2, paging.getBeginRow());
-					  stmt.setInt(3, paging.getRowPerPage()); 
+					  stmt.setInt(3, paging.getRowPerPage());
+				  }else{
+					  //등급 선택
+					  stmt.setInt(1, storeId); 
+					  stmt.setString(2, rating);
+					  stmt.setInt(3, paging.getBeginRow());
+					  stmt.setInt(4, paging.getRowPerPage()); 
 				  }
 			  }else {
 				  //가게 선택 안한 경우
-				  if(rating!="All") {
-				  //등급 선택
+				  if(rating.equals("All")) {
+					  //등급 전체
+					  stmt.setInt(1, paging.getBeginRow());
+					  stmt.setInt(2, paging.getRowPerPage()); 					
+				  }else {
+					//등급 선택
 					  stmt.setString(1, rating);
 					  stmt.setInt(2, paging.getBeginRow());
-					  stmt.setInt(3, paging.getRowPerPage()); 
+					  stmt.setInt(3, paging.getRowPerPage());
 				  }
-				  //등급 전체
-				  stmt.setInt(1, paging.getBeginRow());
-				  stmt.setInt(2, paging.getRowPerPage());
 			  }
 				rs = stmt.executeQuery();
 				System.out.println(">"+rs);
