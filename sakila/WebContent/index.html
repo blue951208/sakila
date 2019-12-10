@@ -34,6 +34,7 @@
         margin-bottom: 100px;
         background: white;
     }
+
 </style>
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -41,10 +42,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <body>
-    <div id="aside">
-        <h1>MENU</h1>
-			<ul>
-        		<li>
+	<!--  상단 메뉴 -->
+	
+		<nav id="top_manu" class="navbar navbar-expand-sm bg-warning navbar-light">
+			<ul class="nav navbar-nav navbar-right">
+					<li class="nav-item active">
+						<a class="nav-link" type="button" id="login" href="/sakila/login.html">로그인</a>
+					</li>
+					<li>
+					
         			<div class="dropdown" id="adminMenu">
         			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
         				관리자 메뉴
@@ -56,6 +62,13 @@
 	        			</div>
         			</div>
         		</li>
+			</ul>
+		</nav>	 
+	
+	<!-- 좌측 메뉴 -->
+    <div id="aside">
+        <h1><a href="/sakila/index.html">Home</a></h1>
+			<ul>
         		<!-- <a href="/sakila/customerList.html">Customer 관리</a> -->
         		<li><a href="/sakila/businessList.html">Business 관리</a></li>
         		<li><a href="/sakila/inventoryList.html">Inventory 관리</a></li>
