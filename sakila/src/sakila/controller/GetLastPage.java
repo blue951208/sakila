@@ -20,7 +20,8 @@ import sakila.vo.Paging;
 @WebServlet("/getLastPage")
 public class GetLastPage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String rating="";
+		int storeId=0;
 		int menuNo = Integer.parseInt(request.getParameter("menuNo"));
 		System.out.println("전체 페이지 확인"+menuNo);
 		response.setContentType("Application/json;charset=utf=8");
@@ -29,8 +30,11 @@ public class GetLastPage extends HttpServlet {
 				ActorDao actorDao = new ActorDao();
 				count = actorDao.selectCount();
 			}else if(menuNo==2) {
+				storeId = Integer.parseInt(request.getParameter("storeId"));
+				rating = request.getParameter("rating");
+				System.out.println("가게"+storeId+"\n등급"+rating+"\n번호"+menuNo);
 				FilmDao filmDao = new FilmDao();
-				//count = FilmDao.selectCount();
+				count = filmDao.selectCount(storeId,rating);
 			}else if(menuNo==1) {
 				RentalDao rentalDao = new RentalDao();
 				String name = request.getParameter("name");
@@ -44,6 +48,7 @@ public class GetLastPage extends HttpServlet {
 		System.out.println("last:"+lastPage);
 		Paging paging = new Paging();
 		paging.setLastPage(lastPage);
+		
 		Gson gson = new Gson();
 		//view 로 list를 gson 타입으로 전송
 		String json = gson.toJson(paging);

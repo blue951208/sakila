@@ -14,12 +14,77 @@ import sakila.vo.Paging;
 import sakila.vo.Store;
 
 public class FilmDao {
-/*	public int selectCount() {
+	public int selectCount(int storeId,String rating) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "select count(*) from "
-	}*/
+		String sql="";
+		int row=0;
+		
+		if(storeId==0) {
+			if(rating.equals("All")) {//가게 전체일때
+				sql = "select count(*) from " 
+					+"(select count(*) from "
+					+"store s inner join inventory i inner join film f "
+					+"on s.store_id=i.store_id and i.film_id=f.film_id "
+					+"group by f.title) s";
+			}else {//가게 전체에서 등급 선택 +rating 값 입력
+				sql = "select count(*) from "
+					+"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+					+" from store s inner join inventory i inner join film f"
+					+" on s.store_id=i.store_id and i.film_id=f.film_id"
+					+" where f.rating=?"
+					+" group by f.title"
+					+") s";
+			}
+		}else {//가게 선택 & 등급 전체 + 가게번호,등급 값 입력
+			System.out.println("전체 행구하기 가게번호"+storeId);
+			if(rating.equals("All")) {
+				sql="select count(*) from "
+						+"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
+						+" from store s inner join inventory i inner join film f"
+						+" on s.store_id=i.store_id and i.film_id=f.film_id"
+						+" where s.store_id=? and f.rating=?"
+						+" group by f.title) s";
+			}else {//가게 선택 & 등급 선택 +가게 번호 입력
+				 sql = "select count(*) from "
+						 +"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+							+" from store s inner join inventory i inner join film f"
+							+" on s.store_id=i.store_id and i.film_id=f.film_id"
+							+" where s.store_id=?"
+							+" group by f.title) s";
+			}
+			try {
+				conn = DBHelper.getConnection();
+				stmt = conn.prepareStatement(sql);
+				if(storeId==0 && rating!="All") {
+					stmt.setString(1, rating);
+				}else if(storeId!=0 && rating!="All") {
+					stmt.setInt(1, storeId);
+					stmt.setString(2, rating);
+				}else if(storeId!=0 && rating.equals("All")) {
+					stmt.setInt(1, storeId);
+				}
+				rs = stmt.executeQuery();
+				if(rs.next()) {
+					row=rs.getInt("count(*)");
+				}
+				System.out.println("행의 수:"+row);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					stmt.close();
+					conn.close();
+				}catch(Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		}
+		return row;
+	}
 	
 	public Inven selectInventory(String title){
 		Connection conn = null;
