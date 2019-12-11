@@ -1,6 +1,7 @@
 package sakila.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,19 @@ public class SelectFilmByStore extends HttpServlet {
 		paging.setBeginRow(beginRow);
 		
 		FilmDao filmDao = new FilmDao();
-		List<Map<String, Object>> list = filmDao.selectFilmByStore(storeId, rating,paging);
+		List<Map<String, Object>> list = filmDao.selectFilmByStore(storeId,rating,paging);
 		
+		int count = filmDao.selectCount(storeId, rating);
+		System.out.println("전체 행"+count);
+		int lastPage =count/rowPerPage;
+		if(count%rowPerPage!=0) {
+			lastPage+=1;
+		}
+		System.out.println("마지막 페이지:"+lastPage);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("lastPage", lastPage);
+		list.add(map);
+		System.out.println("확인1"+list);
 		Gson gson = new Gson();
 		//view 로 list를 gson 타입으로 전송
 		String json = gson.toJson(list);

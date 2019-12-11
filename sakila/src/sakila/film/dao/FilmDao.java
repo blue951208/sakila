@@ -20,15 +20,17 @@ public class FilmDao {
 		ResultSet rs = null;
 		String sql="";
 		int row=0;
-		
+		System.out.println("값 확인 >"+storeId+","+rating);
 		if(storeId==0) {
 			if(rating.equals("All")) {//가게 전체일때
+				System.out.println("리스트 전체 출력");
 				sql = "select count(*) from " 
-					+ "(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
+					+ "(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating from "
 					+"store s inner join inventory i inner join film f "
 					+"on s.store_id=i.store_id and i.film_id=f.film_id "
 					+"group by f.title) s";
 			}else {//가게 전체에서 등급 선택 +rating 값 입력
+				System.out.println("리스트 등급값 출력");
 				sql = "select count(*) from "
 					+"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
 					+" from store s inner join inventory i inner join film f"
@@ -40,6 +42,7 @@ public class FilmDao {
 		}else {//가게 선택 & 등급 전체 + 가게번호,등급 값 입력
 			System.out.println("전체 행구하기 가게번호"+storeId);
 			if(rating.equals("All")) {
+				System.out.println("가게 리스트  출력");
 				sql="select count(*) from "
 						+"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
 						+" from store s inner join inventory i inner join film f"
@@ -47,6 +50,7 @@ public class FilmDao {
 						+" where s.store_id=? and f.rating=?"
 						+" group by f.title) s";
 			}else {//가게 선택 & 등급 선택 +가게 번호 입력
+				System.out.println("가게 리스트 등급 출력");
 				 sql = "select count(*) from "
 						 +"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
 							+" from store s inner join inventory i inner join film f"
@@ -57,19 +61,32 @@ public class FilmDao {
 			try {
 				conn = DBHelper.getConnection();
 				stmt = conn.prepareStatement(sql);
-				if(storeId==0 && rating!="All") {
-					stmt.setString(1, rating);
-				}else if(storeId!=0 && rating!="All") {
-					stmt.setInt(1, storeId);
-					stmt.setString(2, rating);
-				}else if(storeId!=0 && rating.equals("All")) {
-					stmt.setInt(1, storeId);
+				if(storeId==0) {
+					if(rating.equals("All")){
+						System.out.println("0 point");
+						
+					}else {
+						System.out.println("1");
+						stmt.setString(1, rating);
+					}
+				}else {
+					if(rating.equals("All")) {
+						System.out.println("3");
+						stmt.setInt(1, storeId);
+						stmt.setString(2, rating);
+					}else {
+						System.out.println("4");
+						stmt.setInt(1, storeId);
+					}
 				}
 				rs = stmt.executeQuery();
 				if(rs.next()) {
+					System.out.println("2");
+					System.out.println(rs.getInt("count(*)"));
 					row=rs.getInt("count(*)");
+					System.out.println("행의 수:"+row);
 				}
-				System.out.println("행의 수:"+row);
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}finally {

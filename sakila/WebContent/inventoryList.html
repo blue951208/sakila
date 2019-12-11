@@ -120,23 +120,11 @@
 <script>
 
 	let lastPage=0;
-	$.ajax({
-		url:"sakila/getLastPage",
-		method:"post",
-		data:{
-			"storeId":$("#storeId").val(),
-			"rating":$("#rating").val(),
-			"menuNo":2
-			//,"category":$("#categoryList").val()
-			},
-		success:function(json){
-			console.log(json);
-			lastPage = json.lastPage;
-		}
-	})
-	
+	//관리자 메뉴 숨기기
 	$("#adminMenu").hide();
-	let loginState;
+	let loginState;//로그인 여부 확인 변수
+	
+	//세션 값 확인
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
@@ -155,6 +143,7 @@
 		}
 	})
 	
+	//로그아웃 기능
 	$("#logout").click(function(){
 		$.ajax({
 			url:"/sakila/logout",
@@ -165,8 +154,9 @@
 			}
 		})
 	})
-	
+	//현재 페이지
 	let currentPage=1;
+	//리스트 숨기기
 	$("#list").hide();
 	
 /*	$.ajax({
@@ -181,11 +171,20 @@
 		}
 	});*/
 	
-
+	//가게 번호 ,등급 변수
+	let storeId;
+	let rating;
+	
+	
+	
+	
 	$("#store").click(function(){
 		$("#list").show();
 		$("#film").empty();
-		console.log($("#storeId").val());
+		storeId = $("#storeId").val();
+		rating = $("#rating").val();
+		console.log("확인1-가게>",storeId,"확인2-등급>",rating);
+		console.log("가게번호",$("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
 			$.ajax({
 				url:"/sakila/selectFilmbyStore", 
@@ -210,7 +209,26 @@
 					})
 				}
 			})
+			
 	});
+	
+	$("#store").click(function(){	
+		$.ajax({
+			url:"sakila/getLastPage",
+			method:"post",
+			data:{
+				"storeId":storeId,
+				"rating":rating,
+				"menuNo":2
+				//,"category":$("#categoryList").val()
+				},
+			success:function(json){
+				console.log(json);
+			 	lastPage = json.lastPage;
+				console.log("마지막 페이지 확인1>",lastPage); 
+						}
+				})	
+	})
 	
 	$("#next").click(function(){
 		currentPage+=1;
@@ -270,6 +288,7 @@
 				}
 			})
 	});
-		
+
+	
 </script>
 </html>
