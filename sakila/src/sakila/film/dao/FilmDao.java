@@ -47,7 +47,7 @@ public class FilmDao {
 						+"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating" 
 						+" from store s inner join inventory i inner join film f"
 						+" on s.store_id=i.store_id and i.film_id=f.film_id"
-						+" where s.store_id=? and f.rating=?"
+						+" where s.store_id=?"
 						+" group by f.title) s";
 			}else {//가게 선택 & 등급 선택 +가게 번호 입력
 				System.out.println("가게 리스트 등급 출력");
@@ -55,37 +55,37 @@ public class FilmDao {
 						 +"(select s.store_id,f.title,f.description,f.release_year,f.rental_rate,f.rating"
 							+" from store s inner join inventory i inner join film f"
 							+" on s.store_id=i.store_id and i.film_id=f.film_id"
-							+" where s.store_id=?"
+							+" where s.store_id=? and f.rating=?"
 							+" group by f.title) s";
 			}
+		}
 			try {
 				conn = DBHelper.getConnection();
 				stmt = conn.prepareStatement(sql);
-				if(storeId==0) {
-					if(rating.equals("All")){
-						System.out.println("0 point");
-						
+					if(storeId==0) {
+							if(rating.equals("All")){
+								System.out.println("0 point");		
+							}else {
+								System.out.println("1");
+								stmt.setString(1, rating);
+							}
 					}else {
-						System.out.println("1");
-						stmt.setString(1, rating);
+						if(rating.equals("All")) {
+							System.out.println("3");
+							stmt.setInt(1, storeId);
+						}else {
+							System.out.println("4");
+							stmt.setInt(1, storeId);
+							stmt.setString(2, rating);
+						}
 					}
-				}else {
-					if(rating.equals("All")) {
-						System.out.println("3");
-						stmt.setInt(1, storeId);
-						stmt.setString(2, rating);
-					}else {
-						System.out.println("4");
-						stmt.setInt(1, storeId);
+					rs = stmt.executeQuery();
+					if(rs.next()) {
+						System.out.println("2");
+						System.out.println(rs.getInt("count(*)"));
+						row=rs.getInt("count(*)");
+						System.out.println("행의 수:"+row);
 					}
-				}
-				rs = stmt.executeQuery();
-				if(rs.next()) {
-					System.out.println("2");
-					System.out.println(rs.getInt("count(*)"));
-					row=rs.getInt("count(*)");
-					System.out.println("행의 수:"+row);
-				}
 				
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -98,10 +98,10 @@ public class FilmDao {
 					e1.printStackTrace();
 				}
 			}
-			
+			return row;
 		}
-		return row;
-	}
+	
+	
 	
 	public Inven selectInventory(String title){
 		Connection conn = null;
