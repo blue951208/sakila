@@ -63,7 +63,7 @@
         	</ul>
     </div>
     <div id="section">
-     <div class="row">
+    	 <div class="row">
 			<div class="col-sm-1">
 				<h1>고객 등록</h1>
 			</div>        	
@@ -72,42 +72,74 @@
     			<a href="/sakila/login.html">로그인</a>
         		<button type="button" id="logout">로그아웃</button>
         	</div>
-        </div>	
-       <!--  <h1>INDEX</h1> -->
+         </div>	
+       <!--  main -->
+        	<!--  나라 목록 -->
+        	<select id="countryList">
+        		
+        	</select>
+        	<!--  선택한 나라에 도시 목록 -->
+        	<select id="cityList">
         	
+        	</select>
+        	<!--  주소 입력 -->
     </div>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+$(document).ready(function() {
 	$("#adminMenu").hide();
 	let loginState;
-	$.ajax({
-		url:"/sakila/SessionCheck",
-		method:"post",
-		success:function(json){
-			loginState = json;
-			if(loginState!=null){
-				console.log(loginState);
-				$("#adminMenu").show();
-				$("#login").hide();
-				$("#logout").show();
-			}else{
-				$("#adminMenu").hide();
-				$("#logout").hide();
-				$("#login").show();
-			}
-		}
-	})
-	
-	$("#logout").click(function(){
+		//로그인 ,로그아웃 버튼 설정 (session 값 여부 확인)
 		$.ajax({
-			url:"/sakila/logout",
+			url:"/sakila/SessionCheck",
 			method:"post",
-			success:function(){
-				location.href = "/sakila/index.html";
-				return false;//function 종료 
+			success:function(json){
+				loginState = json;
+				console.log(loginState);
+				if(loginState!=null){
+					$("#adminMenu").show();
+					$("#login").hide();
+					$("#logout").show();
+				}else{
+					$("#adminMenu").hide();
+					$("#logout").hide();
+					$("#login").show();
+				}
 			}
 		})
-	})
+		//로그아웃 버튼
+		$("#logout").click(function(){
+			$.ajax({
+				url:"/sakila/logout",
+				method:"post",
+				success:function(){
+					location.href = "/sakila/index.html";
+					return false;//function 종료 
+				}
+			})
+		})
+		
+		//나라 목록 ajax 
+		$.ajax({
+			url:"/sakila/selectCountryList",
+			method:"post",
+			success:function(json){
+				console.log(json.country);
+				$(json).each(function(index,item){
+					$("#countryList").append(
+							"<option value='item.countryId'>"
+							+item.country+"</option>");
+				});
+			} 
+		});
+		
+		//도시 목록 ajax
+	//	$.ajax({
+			
+	//	})
+		
+});
 </script>
 </html>
