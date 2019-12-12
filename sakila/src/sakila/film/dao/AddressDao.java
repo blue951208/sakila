@@ -7,9 +7,42 @@ import java.util.List;
 import java.util.Map;
 
 import sakila.db.DBHelper;
+import sakila.vo.City;
 import sakila.vo.Country;
 
 public class AddressDao {
+	//도시 목록 출력
+	public List<City> selectCiyt(int countryId){
+		List<City> list = new ArrayList<City>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select city_id,city,country_id from city where country_id=?";
+		//예외 처리
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, countryId);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				City city = new City();
+				city.setCity(rs.getString("city"));
+				city.setCityId(rs.getInt("city_id"));
+				list.add(city);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+			rs.close();
+			stmt.close();
+			conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return list;
+	}
 	//나라 목록 출력
 	public List<Country> selectCountry(){
 		List<Country> list = new ArrayList<Country>();

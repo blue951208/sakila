@@ -94,6 +94,7 @@
 <script>
 $(document).ready(function() {
 	$("#adminMenu").hide();
+	$("#cityList").hide();
 	let loginState;
 		//로그인 ,로그아웃 버튼 설정 (session 값 여부 확인)
 		$.ajax({
@@ -125,25 +126,65 @@ $(document).ready(function() {
 			})
 		})
 		
+	
 		//나라 목록 ajax 
 		$.ajax({
 			url:"/sakila/selectCountryList",
 			method:"post",
 			success:function(json){
-				console.log(json.country);
 				$(json).each(function(index,item){
 					$("#countryList").append(
-							"<option value='item.countryId'>"
+							"<option value='"+item.countryId+"'>"
 							+item.country+"</option>");
+				});
+				$.ajax({
+					url:"/saklia/selectCityList",
+					method:"post",
+					//data:{"countryId":countryId},
+					success:function(json){
+						console.log(json);
+						$(json).each(function(index,item){
+							$("#cityList").append(
+								"<option value='"+item.cityId+"'>"+item.city+"</option>"		
+							);
+						})
+					}
 				});
 			} 
 		});
 		
-		//도시 목록 ajax
-	//	$.ajax({
-			
-	//	})
 		
-});
+		let countryId=null;
+		
+	/* 	$("#countryList").change(function(){
+			//나라 목록 select 값 받아오기
+			countryId = $(this).val();
+			console.log(countryId);
+					//도시 목록 ajax
+					if(countryId!=null){
+						$("#cityList").show();
+					} 
+						 	 $.ajax({
+									url:"/saklia/selectCityList",
+									method:"post",
+									//data:{"countryId":countryId},
+									success:function(json){
+										console.log(json);
+										$(json).each(function(index,item){
+											$("#cityList").append(
+												"<option value='"+item.cityId+"'>"+item.city+"</option>"		
+											);
+										})
+									}
+								}); 
+
+		});
+		 */
+	/* 	$("#cityList").click(function(){
+		      $("#cityId").val($("#cityList").val());
+		   }); */
+
+		//console.log($("#cityList").val());
+	});
 </script>
 </html>
