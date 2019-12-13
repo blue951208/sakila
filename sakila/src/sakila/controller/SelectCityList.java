@@ -21,11 +21,12 @@ import sakila.vo.City;
 @WebServlet("/selectCityList")
 public class SelectCityList extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			int countryId =Integer.parseInt(request.getParameter("countryId"));
+			System.out.println("도시 목록>"+countryId);
 			//데이터 타입 지정
 			response.setContentType("Application/json");//charset=utf=8");
 			
-			int countryId =Integer.parseInt(request.getParameter("countryId"));
-			System.out.println("도시 목록>"+countryId);
+		
 	
 			//dao 호출
 			AddressDao addressDao = new AddressDao();
