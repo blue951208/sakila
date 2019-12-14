@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import sakila.db.DBHelper;
+import sakila.vo.Address;
 import sakila.vo.City;
 import sakila.vo.Country;
 
@@ -78,7 +79,43 @@ public class AddressDao {
 		System.out.println("값 확인"+list);
 		return list;
 	}
-	//도시목록 출력
 	
 	//주소 입력
+	public int insertAddress(Address address) {
+		System.out.println("dao 값 확인"+address);
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		//입력
+		String sql = "insert into address("
+		+"address,address2,district,city_id,postal_code,phone"
+		+")values(?,?,?,?,?,?)";
+		int row = 0; //리턴 값 저장용
+		//예외처리
+		try {
+			//접속 & 쿼리 실행
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, address.getAddress());
+			stmt.setString(2, address.getAddress2());
+			stmt.setString(3, address.getDistrict());
+			stmt.setInt(4, address.getCityId());
+			stmt.setString(5, address.getPostalCode());
+			stmt.setString(6, address.getPhone());
+			row = stmt.executeUpdate();
+			System.out.println("입력 행:"+row);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				stmt.close();
+				conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
 }

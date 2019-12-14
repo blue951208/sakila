@@ -83,10 +83,32 @@
         	
         	</select>
         	<!--  주소 입력 -->
-        	<input id="test" type="hidden" value=0>
-        	<input type="text">
-        	<input type="text">
-        	<input type="text">
+        	<div id="addressForm">
+	        	<div>
+	        		<input id="cityId" type="hidden" value=0>
+	        	</div>
+	        	<div>
+	        	<span>주소입력</span>
+	        	<input type="text" id="address">
+	        	</div>
+	        	<div>
+	        	<span>주소입력2</span>
+	        	<input type="text" id="address2">
+	        	</div>
+	        	<div>
+	        	<span>District</span>
+	        	<input type="text" id="district">
+	        	</div>
+	        	<div>
+	        	<span>우편 주소</span>
+	        	<input type="text" id="postalCode">
+	        	</div>
+	        	<div>
+	        	<span>핸드폰 번호</span>
+	        	<input type="text" id="phone">
+	        	</div>
+	        	<button id="addressInsert">입력</button>
+        	</div>
     </div>
 
 </body>
@@ -95,6 +117,7 @@
 $(document).ready(function() {
 	$("#adminMenu").hide();
 	$("#cityList").hide();
+	$("#addressForm").hide();
 	let loginState;
 		//로그인 ,로그아웃 버튼 설정 (session 값 여부 확인)
 		$.ajax({
@@ -164,15 +187,43 @@ $(document).ready(function() {
 											"<option value='"+item.cityId+"'>"+item.city+"</option>"		
 										);
 									})
+
 								}
 							}) 
 						 
 		});
+	 	//도시 목록 select 클릭할 경우
 		$("#cityList").change(function(){
-					 	 cityId = $(this).val();
-					 		console.log("2,",cityId);
-					 		$("#test").val(cityId);
-						   });
+		 	 cityId = $(this).val();
+		 		console.log("2,",cityId);
+		 		$("#test").val(cityId);
+		 		$("#addressForm").show();
+		 		
+		 		$("#addressInsert").click(function(){
+			 		console.log("입력 시작");
+			 		$.ajax({
+			 			url:"/sakila/insertAddressServlet",
+			 			method:"post",
+			 			data:{
+			 				"cityId":cityId,
+			 				"address":$("#address").val(),
+			 				"address2":$("#address2").val(),
+			 				"district":$("#district").val(),
+			 				"postalCode":$("#postalCode").val(),
+			 				"phone":$("#phone").val()
+			 			},
+			 			success:function(json){
+			 				console.log("입력 성공");
+			 			}
+			 		});
+			 		
+			 	}); 		
+		});
+	 	
+	 	//입력 버튼
+	 	
+	 	
+	 	
 	});
 </script>
 </html>
