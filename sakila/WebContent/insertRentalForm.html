@@ -75,11 +75,14 @@
         	</div>
         </div>
         
-        	고객 이름
-        	<input type="text" id="firstName">
-        	<input type="text" id="lastName">
-     		영화 이름<input type="text" id="inventory"><button type="button" id="searchFilm">재고 확인</button>
-     		<table id="filmList">
+        	고객 이름<br>
+        	<input type="text" id="firstName">(F)
+        	<input type="text" id="lastName">(L)
+        	<button type="button" id="customerCheck">확인</button>
+        	<br>
+     		영화 이름<br>
+     		<input type="text" id="inventory"><button type="button" id="searchFilm">재고 확인</button>
+     		<table id="filmList" border='1'>
      			<thead>
      				<tr>
      					<th>영화 제목</th>
@@ -156,12 +159,12 @@
 				"lastName":$("#lastName").val(),
 				"inventoryId":inventoryId,
 				"staffId":loginState
-			},
+			}, 
 			success:function(){
 				alert("입력 성공");
  				location.href = "/sakila/index.html";
 			}
-		})
-	})
+		});
+	});
 </script>
 </html>

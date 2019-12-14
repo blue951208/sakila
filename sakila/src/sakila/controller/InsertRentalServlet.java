@@ -19,8 +19,9 @@ import sakila.vo.Rental;
 public class InsertRentalServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("rental 입력");
-		String firstName = request.getParameter("customer");
-		String lastName = request.getParameter("rental");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		System.out.println("이름 값 para:"+firstName+"-"+lastName);
 		int inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
 		int staffId = Integer.parseInt(request.getParameter("staffId"));
 		Rental rental = new Rental();
