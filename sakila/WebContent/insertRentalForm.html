@@ -82,9 +82,11 @@
         	<button type="button" id="customerCheck" class="btn btn-outline-warning">확인</button>
         	</div>
         	<br>
+        <div id=filmSection>	
      		영화 이름<br>
      		<input type="text" id="inventory" class="form-control">
      		<button type="button" id="searchFilm" class="btn btn-outline-warning">재고 확인</button>
+     	</div>
      		<table id="filmList" border='1' class="table table-striped">
      			<thead>
      				<tr>
@@ -95,12 +97,18 @@
      			<tbody id="inven">
      			</tbody>
      		</table>
+     	
      		<button type="button" id="rental" class="btn btn-outline-warning">Rental</button>
+     	
     </div>
 </body>
 <script>
 	$("#adminMenu").hide();
+	$("#filmSection").hide();
+	$("#rental").hide();
+	$("#filmList").hide();
 	let loginState;
+	
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
@@ -142,8 +150,14 @@
 			},
 			success:function(json){
 				console.log("고객 확인"+json);
-				customerId = json;
-				console.log("고객 확인2"+customerId);
+				if(json!=0){
+					$("#filmSection").show();
+					customerId = json;
+					console.log("고객 확인2"+customerId);
+				}else{
+					alert("고객이 존재하지 않습니다");
+				}
+				
 			}
 		}); 
 	});
@@ -160,14 +174,18 @@
 					let rentalFilm = JSON.parse(json);
 					inventoryId = rentalFilm.inventoryId;
 					if(rentalFilm.count>0){
+						$("#filmList").show();
 						$("#rental").show();
+						console.log(rentalFilm);
+						$("#inven").empty();
+							$("#inven").append("<tr>"
+									+"<td>"+rentalFilm.title+"</td>"
+									+"<td>"+rentalFilm.count+"</td>"
+									+"</tr>");
+					}else{
+						alert("해당 영화가 없습니다 . 제목을 다시 확인 해 주세요");
 					}
-					console.log(rentalFilm);
-					$("#inven").empty();
-						$("#inven").append("<tr>"
-								+"<td>"+rentalFilm.title+"</td>"
-								+"<td>"+rentalFilm.count+"</td>"
-								+"</tr>");
+					
 				}
 			})
 		})
