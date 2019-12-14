@@ -20,7 +20,7 @@ import sakila.vo.Language;
 @WebServlet("/InsertFilmServlet")
 public class InsertFilmServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("Application/json;charset=utf=8");
+		
 		System.out.println("film입력 servlet");
 		//film 객체 생성
 		Film film = new Film();

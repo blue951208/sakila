@@ -21,7 +21,7 @@ public class InsertRentalServlet extends HttpServlet {
 		System.out.println("rental 입력");
 		String firstName = request.getParameter("customer");
 		String lastName = request.getParameter("rental");
-		int inventoryId = Integer.parseInt(request.getParameter("inventory"));
+		int inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
 		int staffId = Integer.parseInt(request.getParameter("staffId"));
 		Rental rental = new Rental();
 		
