@@ -19,16 +19,13 @@ import sakila.vo.Rental;
 public class InsertRentalServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("rental 입력");
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		System.out.println("이름 값 para:"+firstName+"-"+lastName);
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		System.out.println("고객 번호"+customerId);
 		int inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
 		int staffId = Integer.parseInt(request.getParameter("staffId"));
 		Rental rental = new Rental();
 		
 		CustomerDao customerDao = new CustomerDao();
-		int customerId = customerDao.selectCustomerId(firstName,lastName);
-		System.out.println("고객 번호"+customerId);
 		
 		rental.setCustomerId(customerId);
 		rental.setInventoryId(inventoryId);

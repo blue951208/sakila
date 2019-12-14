@@ -76,13 +76,16 @@
         </div>
         
         	고객 이름<br>
-        	<input type="text" id="firstName">(F)
-        	<input type="text" id="lastName">(L)
-        	<button type="button" id="customerCheck">확인</button>
+        	<div class="input-group mb-2">
+        	<input type="text" id="firstName" class="form-control" placeholder="First Name">
+        	<input type="text" id="lastName" class="form-control" placeholder="Lirst Name">
+        	<button type="button" id="customerCheck" class="btn btn-outline-warning">확인</button>
+        	</div>
         	<br>
      		영화 이름<br>
-     		<input type="text" id="inventory"><button type="button" id="searchFilm">재고 확인</button>
-     		<table id="filmList" border='1'>
+     		<input type="text" id="inventory" class="form-control">
+     		<button type="button" id="searchFilm" class="btn btn-outline-warning">재고 확인</button>
+     		<table id="filmList" border='1' class="table table-striped">
      			<thead>
      				<tr>
      					<th>영화 제목</th>
@@ -92,7 +95,7 @@
      			<tbody id="inven">
      			</tbody>
      		</table>
-     		<button type="button" id="rental">Rental</button>
+     		<button type="button" id="rental" class="btn btn-outline-warning">Rental</button>
     </div>
 </body>
 <script>
@@ -124,10 +127,29 @@
 				location.href = "/sakila/index.html";
 				return false;//function 종료 
 			}
-		})
-	})
+		});
+	});
+	  
+	let customerId=0;
+	$("#customerCheck").click(function(){
+		console.log("test");
+		$.ajax({
+			url:"/sakila/GetCustomerOne", 
+			method:"post",
+			data:{
+				"firstName":$("#firstName").val(),
+				"lastName":$("#lastName").val()
+			},
+			success:function(json){
+				console.log("고객 확인"+json);
+				customerId = json;
+				console.log("고객 확인2"+customerId);
+			}
+		}); 
+	});
 	
 	$("#searchFilm").click(function(){
+		console.log("고객 확인"+customerId);
 			$.ajax({
 				url:"/sakila/GetFilmOne",
 				method:"post",
@@ -141,6 +163,7 @@
 						$("#rental").show();
 					}
 					console.log(rentalFilm);
+					$("#inven").empty();
 						$("#inven").append("<tr>"
 								+"<td>"+rentalFilm.title+"</td>"
 								+"<td>"+rentalFilm.count+"</td>"
@@ -155,8 +178,7 @@
 			url:"/sakila/InsertRentalServlet",
 			method:"post",
 			data:{
-				"firstName":$("#firstName").val(),
-				"lastName":$("#lastName").val(),
+				"customerId":customerId,
 				"inventoryId":inventoryId,
 				"staffId":loginState
 			}, 
