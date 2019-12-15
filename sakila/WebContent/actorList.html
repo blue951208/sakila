@@ -258,7 +258,6 @@
 	let lastSearchPage=0;
 		//배우 검색 버튼 클릭
 	 $("#actorFilm").click(function(){
-		 $("#search").show();
 		 $("#filmList").empty();
 		let actorName=$("#actorName").val();
 		console.log("name:"+actorName);
@@ -271,7 +270,12 @@
 							},
 						success:function(json){
 							console.log(json);
-							$("#actor").empty();
+							if(json.length==0){
+								$("#filmList").hide();
+								alert("해당 배우 또는 영화가 존재하지 않습니다.");
+							}else{
+								 $("#search").show();
+								$("#actor").empty();
 								$(json).each(function(index,item){
 									$("#filmList").append(
 											"<tr>"
@@ -293,8 +297,9 @@
 										console.log("검색 페이지",json);
 										lastSearchPage = json;
 									}
-								})
-								
+								})	
+							}
+							
 						}
 					});
 		})	
