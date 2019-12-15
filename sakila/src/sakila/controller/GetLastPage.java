@@ -21,14 +21,24 @@ import sakila.vo.Paging;
 public class GetLastPage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String rating="";
+		String actorName="";
 		int storeId=0;
 		int menuNo = Integer.parseInt(request.getParameter("menuNo"));
 		System.out.println("전체 페이지 확인"+menuNo);
 		response.setContentType("Application/json;charset=utf=8");
 		int count=0;
 			if(menuNo==3) {
-				ActorDao actorDao = new ActorDao();
-				count = actorDao.selectCount();
+					if(request.getParameter("actorName")!="") {
+						System.out.println("배우 출현 영화 목록");
+						actorName = request.getParameter("actorName");
+						System.out.println("검색어:"+actorName);
+						FilmDao filmDao = new FilmDao();
+						count = filmDao.selctCountbyActor(actorName);
+					}else {
+						System.out.println("배우 목록");
+						ActorDao actorDao = new ActorDao();				
+						count = actorDao.selectCount();
+					}
 			}else if(menuNo==2) {
 				storeId = Integer.parseInt(request.getParameter("storeId"));
 				rating = request.getParameter("rating");
@@ -46,12 +56,12 @@ public class GetLastPage extends HttpServlet {
 			lastPage+=1;
 		}
 		System.out.println("last:"+lastPage);
-		Paging paging = new Paging();
-		paging.setLastPage(lastPage);
+		/*Paging paging = new Paging();
+		paging.setLastPage(lastPage);*/
 		
 		Gson gson = new Gson();
 		//view 로 list를 gson 타입으로 전송
-		String json = gson.toJson(paging);
+		String json = gson.toJson(lastPage);
 		
 		response.getWriter().write(json);
 	}

@@ -64,21 +64,25 @@
         	</ul>
     </div>
     <div id="section" class="container">
-     <div class="row">
+    	<div class="row">
 			<div class="col-sm-1">
-				<h1>INDEX</h1>
+				<h1></h1>
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
-    			<a href="/sakila/login.html">로그인</a>
+    			<a id="login" href="/sakila/login.html">로그인</a>
         		<button type="button" id="logout">로그아웃</button>
         	</div>
         </div>	
         <h1>배우들....</h1>
 	
-		Actor:<input type="text" id="actorName" class="form-control">
-			<button id="actorFilm" class="btn btn-outline-warning">검색</button>
-	
+		Actor:
+		
+			<div class="input-group mb-2">
+				<input type="text" id="actorName" class="form-control">
+				<button id="actorFilm" class="btn btn-outline-warning">검색</button>
+			</div>
+		<div id="search">
 			<table border="1" id="list" class="table table-striped">
 					<thead>
 						<tr>
@@ -90,22 +94,26 @@
 					<tbody id="filmList">
 					</tbody>
 			</table>
-	<div id="actor">
-		<table border="1" class="table table-striped">
-			<thead>
-				<tr>
-					<td>번호</td>
-					<td>배우 이름</td>
-				</tr>
-			</thead>
-			<tbody id="actorList">
-			
-			</tbody>
-		</table>
-		 	<button id="aprev" class="btn btn-outline-warning">이전</button>
+				<button id="sprev" class="btn btn-outline-warning">이전</button>
 		 	
-		 	<button id="anext" class="btn btn-outline-warning">다음</button>
- 	</div>
+		 		<button id="snext" class="btn btn-outline-warning">다음</button>
+		</div>
+		<div id="actor">
+			<table border="1" class="table table-striped">
+				<thead>
+					<tr>
+						<td>번호</td>
+						<td>배우 이름</td>
+					</tr>
+				</thead>
+				<tbody id="actorList">
+				
+				</tbody>
+			</table>
+			 	<button id="aprev" class="btn btn-outline-warning">이전</button>
+			 	
+			 	<button id="anext" class="btn btn-outline-warning">다음</button>
+	 	</div>
     </div>
 
 </body>
@@ -159,7 +167,7 @@
 			}
 		})
 	
-	$("#list").hide();
+	$("#search").hide();
 	 $.ajax({
 		url:"/sakila/getActorList",
 		method:"post",
@@ -246,22 +254,100 @@
 					}
 				 }) 
 			 })
-		
-		
+	let searchPage=1;
+	let lastSearchPage=0;
+		//배우 검색 버튼 클릭
 	 $("#actorFilm").click(function(){
-		 $("#list").show();
+		 $("#search").show();
 		 $("#filmList").empty();
 		let actorName=$("#actorName").val();
 		console.log("name:"+actorName);
+					$.ajax({
+						url:"/sakila/SelectActorOne",
+						method:"post",
+						data:{
+							"name":actorName,
+							"currentPage":searchPage
+							},
+						success:function(json){
+							console.log(json);
+							$("#actor").empty();
+								$(json).each(function(index,item){
+									$("#filmList").append(
+											"<tr>"
+											+"<td>"+item.title+"</td>"
+											+"<td>"+item.description+"</td>"
+											+"<td>"+item.releaseYear+"</td>"
+											+"</tr>"
+									)
+								});
+								//마지막 페이지
+								$.ajax({
+									url:"/sakila/getLastPage",
+									method:"post",
+									data:{
+										"actorName":actorName,
+										"menuNo":3
+									},
+									success:function(json){
+										console.log("검색 페이지",json);
+										lastSearchPage = json;
+									}
+								})
+								
+						}
+					});
+		})	
+			 $("#sprev").hide();
+			
+		$("#sprev").click(function(){
+			console.log("이전 페이지");
+			searchPage-=1;
+			$("#snext").show();
+			if(searchPage==1){
+				 console.log("test1");
+				 $("#sprev").hide();
+			 }
 				$.ajax({
 					url:"/sakila/SelectActorOne",
 					method:"post",
 					data:{
-						"name":actorName
+						"name":$("#actorName").val(),
+						"currentPage":searchPage
 						},
 					success:function(json){
 						console.log(json);
-						$("#actor").empty();
+						$("#filmList").empty();
+							$(json).each(function(index,item){
+								$("#filmList").append(
+										"<tr>"
+										+"<td>"+item.title+"</td>"
+										+"<td>"+item.description+"</td>"
+										+"<td>"+item.releaseYear+"</td>"
+										+"</tr>"
+								)
+							});
+					}
+				});
+		});
+		
+	 $("#snext").click(function(){
+		 console.log("다음 페이지");
+		 searchPage+=1;
+		$("#sprev").show();		 
+		 if(searchPage==lastSearchPage){
+			 $("#snext").hide();
+		 }
+			$.ajax({
+				url:"/sakila/SelectActorOne",
+				method:"post",
+				data:{
+					"name":$("#actorName").val(),
+					"currentPage":searchPage
+					},
+				success:function(json){
+					console.log(json);
+					$("#filmList").empty();
 						$(json).each(function(index,item){
 							$("#filmList").append(
 									"<tr>"
@@ -271,10 +357,9 @@
 									+"</tr>"
 							)
 						});
-					}
-				})
-		})	
-		 
-	
+				}
+			});
+		})
+		
 </script>
 </html>

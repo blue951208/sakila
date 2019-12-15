@@ -22,6 +22,7 @@ public class ActorDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		
 		String sql = "select count(*) from actor";
 		
 		try {

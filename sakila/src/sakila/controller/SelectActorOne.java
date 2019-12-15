@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import sakila.film.dao.FilmDao;
 import sakila.vo.Film;
+import sakila.vo.Paging;
 
 /**
  * Servlet implementation class SelectActorOne
@@ -23,11 +24,20 @@ public class SelectActorOne extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("Application/json");
 		String name = request.getParameter("name");
+		int currentPage = 1;
+		if(request.getParameter("currentPage")!=null) {
+			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
 		System.out.println("Name:"+name);
 		List<Film> list = new ArrayList<Film>();
 		
 		FilmDao filmDao = new FilmDao();
-		list = filmDao.selectFilmbyActor(name);
+		int rowPerPage=10;
+		int beginRow=(currentPage-1)*rowPerPage;
+		Paging paging = new Paging();
+		paging.setBeginRow(beginRow);
+		paging.setRowPerPage(rowPerPage);
+		list = filmDao.selectFilmbyActor(name,paging);
 		
 		System.out.println("film by Actor List >>"+list);
 		//gson 객체 생성

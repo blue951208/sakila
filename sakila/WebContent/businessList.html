@@ -152,23 +152,7 @@
 				}
 			})
 			console.log("페이지 확인:",currentPage,"마지막 페이지:",lastPage);
-		  /* 	if(currentPage==1){
-				$("#prev").hide();
-				$("#next").show();
-			}
-		 else{
-				$("#next").show();
-				$("#prev").show();
-			}
-		
-		if(currentPage==lastPage){
-			$("#next").hide();
-			$("#prev").show();
-		}else{
-			$("#next").show();
-			$("#prev").show();
-		} */
-
+		 
 			
 		$("#rentalAll").show();
 		$("#rentalList").empty();
@@ -181,15 +165,21 @@
 			},
 			success:function(json){
 				console.log(json);
-				$(json).each(function(index,item){
-				$("#rentalList").append("<tr>"
-						+"<td>"+item.name+"</td>"
-						+"<td>"+item.title+"</td>"
-						+"<td>"+item.rentalDate+"</td>"
-						+"<td>"+item.returnDate+"</td>"
-						+"</tr>"
-						);
-				})
+				if(json.length==0){
+					$("#rentalAll").hide();
+					alert("대여 정보가 없습니다.");
+				}else{
+					$(json).each(function(index,item){
+						$("#rentalList").append("<tr>"
+								+"<td>"+item.name+"</td>"
+								+"<td>"+item.title+"</td>"
+								+"<td>"+item.rentalDate+"</td>"
+								+"<td>"+item.returnDate+"</td>"
+								+"</tr>"
+								);
+						});
+				}
+				
 			}
 		})
 	})

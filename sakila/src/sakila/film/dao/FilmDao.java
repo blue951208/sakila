@@ -285,9 +285,40 @@ public class FilmDao {
 			System.out.println("map>>"+list);
 			return list;
 	}
+	//배우에 따른 영황 리스트 행수
+	public int selctCountbyActor(String actorName) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int count=0;
+		String sql = "select count(*) "
+				+"from film f inner join film_actor fa inner join "
+				+"actor a  on a.actor_id=fa.actor_id and f.film_id=fa.film_id "
+				+"where concat(first_name,'',last_name) like concat('%',?,'%')";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, actorName);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count(*)");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				stmt.close();
+				conn.close();
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		return count;
+	}
 	
 	//선택한 배우번호에 따른 영화리스트 출력
-	public List<Film> selectFilmbyActor(String name){
+	public List<Film> selectFilmbyActor(String name,Paging paging){
 		System.out.println("dao film:"+name);
 	
 		List<Film> list = new ArrayList<Film>();
@@ -298,12 +329,15 @@ public class FilmDao {
 				+"f.title,f.description,f.release_year "
 				+"from film f inner join film_actor fa inner join "
 				+"actor a  on a.actor_id=fa.actor_id and f.film_id=fa.film_id "
-				+"where concat(first_name,'',last_name) like concat('%',?,'%')";
+				+"where concat(first_name,'',last_name) like concat('%',?,'%') "
+				+"limit ?,?";
 		
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1,name);
+			stmt.setInt(2, paging.getBeginRow());
+			stmt.setInt(3, paging.getRowPerPage());
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Film film = new Film();

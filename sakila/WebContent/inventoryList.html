@@ -111,8 +111,9 @@
 					
 				</tbody>
 			</table>
-			<button id="prev">이전</button>
-			<button id="next">다음</button>
+			<button id="prev" class="btn btn-outline-warning">이전</button>
+			<span id="page"></span>
+			<button id="next" class="btn btn-outline-warning">다음</button>
 		</div>
 	</div>
 </body>
@@ -141,7 +142,7 @@
 				$("#login").show();
 			}
 		}
-	})
+	});
 	
 	//로그아웃 기능
 	$("#logout").click(function(){
@@ -153,7 +154,7 @@
 				return false;//function 종료 
 			}
 		})
-	})
+	});
 	//현재 페이지
 	let currentPage=1;
 	//리스트 숨기기
@@ -179,6 +180,9 @@
 	
 	
 	$("#store").click(function(){
+		currentPage=1;
+		$("#page").empty();
+		$("#page").append(currentPage);
 		$("#list").show();
 		$("#film").empty();
 		storeId = $("#storeId").val();
@@ -206,32 +210,40 @@
 								+"<td>"+item.rentalRate+"</td>"
 								+"<td>"+item.rating+"</td>"
 								+"</tr>");
-					})
+					});
+					
+					$.ajax({
+						url:"/sakila/getLastPage",
+						method:"post",
+						data:{
+							"storeId":storeId,
+							"rating":rating,
+							"menuNo":2
+							//,"category":$("#categoryList").val()
+							},
+						success:function(json){
+							console.log(json);
+						 	lastPage = json;
+							console.log("마지막 페이지 확인1>",lastPage); 
+									}
+							});	
 				}
-			})
+			});
+	
 			
 	});
 	
-	$("#store").click(function(){	
-		$.ajax({
-			url:"sakila/getLastPage",
-			method:"post",
-			data:{
-				"storeId":storeId,
-				"rating":rating,
-				"menuNo":2
-				//,"category":$("#categoryList").val()
-				},
-			success:function(json){
-				console.log(json);
-			 	lastPage = json.lastPage;
-				console.log("마지막 페이지 확인1>",lastPage); 
-						}
-				})	
-	})
-	
+	$("#prev").hide();
 	$("#next").click(function(){
+		console.log("1>",lastPage);
 		currentPage+=1;
+		$("#page").empty();
+		$("#page").append(currentPage);
+
+		$("#prev").show();
+		if(currentPage==lastPage){
+			$("#prev").hide();
+		}
 		$("#film").empty();
 		console.log($("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
@@ -261,7 +273,14 @@
 	});
 	$("#prev").click(function(){
 		currentPage-=1;
+		$("#page").empty();
+		$("#page").append(currentPage);
+
 		$("#film").empty();
+		$("#next").show();
+		if(currentPage==1){
+			$("#prev").hide()
+		}
 		console.log($("#storeId").val());
 	//store 값을 받아서 storeid에 맞는 영화 목록 출력
 			$.ajax({
