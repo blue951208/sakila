@@ -45,7 +45,7 @@
       <div id="section">
         <div class="row">
 			<div class="col-sm-1">
-		<h1>MENU</h1>
+		<h1>LOGIN</h1>
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
@@ -66,7 +66,7 @@
     <div id="section">
      <div class="row">
 			<div class="col-sm-1">
-				<h1>INDEX</h1>
+				<!-- <h1>INDEX</h1> -->
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
@@ -75,8 +75,8 @@
         </div>	
     	
         <h1>로그인</h1>
-        	사원 번호:<input type="text" id="staffId" class="form-control">
-        	비밀 번호:<input type="password" id="password" class="form-control">
+        	사원 번호:<input type="text" id="staffId" class="form-control" value='1'>
+        	비밀 번호:<input type="password" id="password" class="form-control" value='1'>
         	<button type="button" id="login">Login</button>	
     </div>
     
@@ -97,9 +97,16 @@
 				"staffId":$("#staffId").val(),
 				"password":$("#password").val()
 			},
-			success:function(){
-					console.log("success");
-					location.href = "/sakila/index.html";
+			success:function(json){
+				//로그인 여부 확인 입력이 틀리면 staffId = 0
+					console.log("success",json);
+					if(json.staffId!=0){
+						location.href = "/sakila/index.html";
+						console.log("로그인");
+					}else{
+						alert("id 및 password 를 확인 해 주세요.");
+					}
+					
 				}
 		})
 	});

@@ -10,12 +10,7 @@ import java.util.List;
 import sakila.db.DBHelper;
 import sakila.vo.Actor;
 
-public class ActorDao {
-	public Actor selectActorOne() {
-		Actor actor = new Actor(); 
-		return actor;
-	}
-	
+public class ActorDao {	
 	public int selectCount() {
 		System.out.println("Count dao");
 		int count=0;

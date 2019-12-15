@@ -28,7 +28,7 @@ public class GetLastPage extends HttpServlet {
 		response.setContentType("Application/json;charset=utf=8");
 		int count=0;
 			if(menuNo==3) {
-					if(request.getParameter("actorName")!="") {
+					if(request.getParameter("actorName")!=null) {
 						System.out.println("배우 출현 영화 목록");
 						actorName = request.getParameter("actorName");
 						System.out.println("검색어:"+actorName);

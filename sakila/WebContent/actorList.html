@@ -155,6 +155,7 @@
 	let currentPage=1;
 	let lastPage=0;
 	
+	
 	 $.ajax({
 			url:"/sakila/getLastPage",
 			method:"post",
@@ -162,10 +163,11 @@
 				"menuNo":3
 			},
 			success:function(json){
-				console.log(json.lastPage); 
-				lastPage = json.lastPage;
+				console.log("행:",json); 
+				lastPage = json;
 			}
 		})
+	
 	
 	$("#search").hide();
 	 $.ajax({
@@ -219,21 +221,13 @@
 				}
 			 }) 
 		 })
-	/*if(currentPage==1){
-		$("#aprev").hide();
-	}else{
-		$("#aprev").show();
-	}			
 
-	*/
-			 $("#anext").click(function(){
+		 $("#anext").click(function(){
 				 $("#aprev").show();
 				 $("#actorList").empty();
 				 currentPage+=1;
 				 	if(currentPage==lastPage){
 						$("#anext").hide();
-					}else{
-						$("#anext").show();
 					}
 				 
 				 $.ajax({

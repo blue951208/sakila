@@ -19,6 +19,8 @@ import sakila.vo.Staff;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			response.setContentType("Application/json");
+			
 			int staffId = Integer.parseInt(request.getParameter("staffId"));
 			String password = request.getParameter("password");
 			
@@ -37,6 +39,12 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("sessionInfo",staffOne.getStaffId());
 				System.out.println("session"+session.getAttribute("sessionInfo"));
 			}
+			//gson 객체 생성
+			Gson gson = new Gson();
+			//view 로 list를 gson 타입으로 전송
+			String json = gson.toJson(staffOne);
+			
+			response.getWriter().write(json);
 		}
 
 }
