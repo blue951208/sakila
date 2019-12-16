@@ -12,16 +12,19 @@ import sakila.db.DBHelper;
 import sakila.vo.Rental;
 
 public class RentalDao {
+	//대여 정보 페이징을 위한 전체 행 구하기
 	public int selectCount(String name) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		//전체 행 수 변수
 		int row=0;
 		String sql ="select count(*)"
 				+" FROM inventory i INNER JOIN film f INNER JOIN rental r INNER JOIN customer c"
 				+" ON i.inventory_id =r.inventory_id AND f.film_id=i.film_id AND c.customer_id=r.customer_id" 
 				+" where concat(first_name,'',last_name) like concat('%',?,'%')";
 		try {
+			//db접속
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, name);
@@ -42,12 +45,13 @@ public class RentalDao {
 		}
 		return row;
 	}
-	
+	//페이징, 입력된 이름에 해당하는 리스트 출력
 	public List<Map<String,Object>> getRentalList(String name,int beginRow,int rowPerPage){
 		System.out.println("name 확인:"+name);
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		//리턴 타입을 위한
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		//이름에 해당하는 렌탈 리스트 출력 sql
 		String sql = "SELECT CONCAT(first_name,' ',last_name),f.title,r.rental_date,r.return_date"
@@ -87,9 +91,12 @@ public class RentalDao {
 		System.out.println("list>"+list);
 		return list;
 	}
+	
+	//렌탈 정보 입력
 	public int insertRental(Rental rental){
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		//입력 여부 확인을 위한 변수
 		int row=0;
 		String sql ="insert into rental("
 				+"inventory_id,customer_id,staff_id)"

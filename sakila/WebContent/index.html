@@ -42,14 +42,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <body>
-	<!--  상단 메뉴 -->
 	
-		<nav id="top_manu" class="navbar navbar-expand-sm bg-warning navbar-light">
-			<ul class="nav navbar-nav navbar-right">
-					<li class="nav-item active">
-						<a class="nav-link" type="button" id="login" href="/sakila/login.html">로그인</a>
-					</li>
-					<li>
+	<!-- 좌측 메뉴 -->
+    <div id="aside">
+        <h1><a href="/sakila/index.html">Home</a></h1>
+			<ul>
+				<li>
 					
         			<div class="dropdown" id="adminMenu">
         			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -62,13 +60,6 @@
 	        			</div>
         			</div>
         		</li>
-			</ul>
-		</nav>	 
-	
-	<!-- 좌측 메뉴 -->
-    <div id="aside">
-        <h1><a href="/sakila/index.html">Home</a></h1>
-			<ul>
         		<!-- <a href="/sakila/customerList.html">Customer 관리</a> -->
         		<li><a href="/sakila/businessList.html">Business 관리</a></li>
         		<li><a href="/sakila/inventoryList.html">Inventory 관리</a></li>
@@ -76,6 +67,7 @@
         		<li><a href="/sakila/actorList.html">배우</a></li>
         	</ul>
     </div>
+    <!--  메인 화면  -->
     <div id="section">
         <div class="row">
 			<div class="col-sm-1">
@@ -83,38 +75,44 @@
 			</div>        	
         	<div class="col-sm-10"></div>
         	<div class="col-sm-1">
+        	<!-- 로그인 화면 이동 -->
     			<a type="button" id="login" href="/sakila/login.html">로그인</a>
         		<button type="button" id="logout">로그아웃</button>
         	</div>
+        	<h1>SaKiLa VIDEO SHOP</h1>
         </div>	
     </div>
 </body>
 <script>
+	//관리자 메뉴 숨김
 	$("#adminMenu").hide();
+	//현재 로그인 상태 변수
 	let loginState;
+	//session에 값 여부 확인
 	$.ajax({
 		url:"/sakila/SessionCheck",
 		method:"post",
 		success:function(json){
 			loginState = json;
-			if(loginState!=null){
+			if(loginState!=null){//관리자 메뉴,로그아웃 버튼 보이고 로그인 버튼 숨기기
 				console.log(loginState);
 				$("#adminMenu").show();
 				$("#login").hide();
 				$("#logout").show();
-			}else{
+			}else{//관리자 메뉴,로그아웃 버튼 숨기고 로그인 버튼 보이기
 				$("#adminMenu").hide();
 				$("#logout").hide();
 				$("#login").show();
 			}
 		}
 	})
-	
+	//로그아웃 버튼 클릭
 	$("#logout").click(function(){
 		$.ajax({
 			url:"/sakila/logout",
 			method:"post",
 			success:function(){
+				//로그아웃 클릭 후 index페이지로 이동
 				location.href = "/sakila/index.html";
 				return false;//function 종료 
 			}
