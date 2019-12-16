@@ -79,7 +79,7 @@
 		
 		설명:<textarea class="form-control" rows="5" id="description">
 		</textarea>
-		개봉 년도:<input type="text" id="releaseYear" class="form-control">
+		개봉 년도:<input type="number" id="releaseYear" class="form-control">
 		언어:<select id="language" class="form-control">
 				<option value=1>English</option>
 				<option value=2>Italian</option>
@@ -88,10 +88,10 @@
 				<option value=5>French</option>
 				<option value=6>German</option>
 			</select><!-- input 타입 변경 바람 -->
-		대여 가능 기간:<input type="text" id="rentalDuration" class="form-control">
-		비용:<input type="text" id="rentalRate" class="form-control">
-		상영길이:<input type="text" id="length" class="form-control">
-		대체 비용:<input type="text" id="replacementCost" class="form-control">
+		대여 가능 기간:<input type="number" id="rentalDuration" class="form-control">
+		비용:<input type="number" id="rentalRate" class="form-control">
+		상영길이:<input type="number" id="length" class="form-control">
+		대체 비용:<input type="number" id="replacementCost" class="form-control">
 		등급:<select id="rating" class="form-control">
 				<option>G</option>
 				<option>PG</option>
@@ -147,6 +147,12 @@
 	let checkList;
 	
 	$("#filmInsert").click(function(){
+		//비용 ,대체 비용 ,개봉 년도 조건
+		if($("#rentalRate").val()>=100||$("#replacementCost").val()>=100){
+			alert("가격이 낮춰주세요.");
+		}else if($("#releaseYear").val()<=1900){
+			alert("1900년도 이전 영화는 등록이 불가합니다.");
+		}else{
 		checkList = new Array;
 		$("input:checkbox[name='ck']:checked").each(function(i){
 			checkList.push($(this).val());
@@ -174,6 +180,7 @@
 	 				location.href = "/sakila/index.html";
 				}
 			});
+		}
 	});
 	
 	
