@@ -81,14 +81,14 @@
 		Actor:
 		
 			<div class="input-group mb-2">
-				<input type="text" id="actorName" class="form-control">
+				<input type="text" id="actorName" class="form-control" placeholder="띄어쓰기 없이 써주세요.">
 				<button id="actorFilm" class="btn btn-outline-warning">검색</button>
 			</div>
 		<div id="search">
 			<table border="1" id="list" class="table table-striped">
 					<thead>
 						<tr>
-							<td>제목</td>
+							<td>제s목</td>
 							<td>설명</td>
 							<td>개봉년도</td>
 						</tr>	
@@ -269,6 +269,7 @@
 							if(json.length==0){
 								$("#filmList").hide();
 								alert("해당 배우 또는 영화가 존재하지 않습니다.");
+								location.href="/sakila/actorList.html";
 							}else{
 								 $("#search").show();
 								$("#actor").empty();

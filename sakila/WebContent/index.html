@@ -60,13 +60,13 @@
 		    	<div class="col-sm-4"></div>
 		    		<div class="col-sm-4">
 		    			<button id="inventory" class='rounded btn btn-outline-primary'>
-		    				<a class="text-warning" href="/sakila/inventoryList.html">Inventory 관리</a>
+		    				<a type="button" class="text-warning" href="/sakila/inventoryList.html">Inventory 관리</a>
 		    			</button>
 		    			<button id="actor" class='rounded btn btn-outline-primary'>
-		    				<a class="text-warning" href="/sakila/actorList.html">배우</a>
+		    				<a type="button"  class="text-warning" href="/sakila/actorList.html">배우</a>
 		    			</button>
 		    			<button id="business" class='rounded btn btn-outline-primary'>
-				    		<a class="text-warning" href="/sakila/businessList.html">Business 관리</a>
+				    		<a type="button"  class="text-warning" href="/sakila/businessList.html">Business 관리</a>
 				    	</button>
 		    		</div>
 	    		<div class="col-sm-4"></div>
@@ -108,5 +108,18 @@
 			}
 		})
 	})
+	
+	$("#inventory").click(function(){
+		location.href="/sakila/inventoryList.html";
+		console.log("inventory 페이지 이동");
+	});
+	$("#actor").click(function(){
+		location.href="/sakila/actorList.html";
+		console.log("actor 페이지 이동");
+	});
+	$("#business").click(function(){
+		location.href="/sakila/businessList.html";
+		console.log("business 페이지 이동");
+	});
 </script>
 </html>
