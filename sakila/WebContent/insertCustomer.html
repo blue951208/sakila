@@ -206,33 +206,34 @@ $(document).ready(function() {
 		 		$("#test").val(cityId);
 		 		$("#addressForm").show();
 		 		
+			 	//입력 버튼
 		 		$("#addressInsert").click(function(){
+		 			console.log($("#address").val());
+		 			if($("#address").val()=="" || $("#address2").val()=="" || $("#district").val()=="" || $("#postalCode").val()=="" || $("#phone").val()==""){
+		 				alert("모두 입력해 주세요.");
+		 			}else{
 			 		console.log("입력 시작");
-			 		$.ajax({
-			 			url:"/sakila/insertAddressServlet",
-			 			method:"post",
-			 			data:{
-			 				"cityId":cityId,
-			 				"address":$("#address").val(),
-			 				"address2":$("#address2").val(),
-			 				"district":$("#district").val(),
-			 				"postalCode":$("#postalCode").val(),
-			 				"phone":$("#phone").val()
-			 			},
-			 			success:function(json){
-			 				console.log("입력 성공");
-			 				alert("입력 성공");
-			 				location.href = "/sakila/index.html";
-			 			}
-			 		});
-			 		
+				 		$.ajax({
+				 			url:"/sakila/insertAddressServlet",
+				 			method:"post",
+				 			data:{
+				 				"cityId":cityId,
+				 				"address":$("#address").val(),
+				 				"address2":$("#address2").val(),
+				 				"district":$("#district").val(),
+				 				"postalCode":$("#postalCode").val(),
+				 				"phone":$("#phone").val()
+				 			},
+				 			success:function(json){
+				 				console.log("입력 성공");
+				 				alert("입력 성공");
+				 				location.href = "/sakila/index.html";
+				 			}
+				 		});
+		 			}
 			 	}); 		
 		});
-	 	
-	 	//입력 버튼
-	 	
-	 	
-	 	
-	});
+
+});
 </script>
 </html>
